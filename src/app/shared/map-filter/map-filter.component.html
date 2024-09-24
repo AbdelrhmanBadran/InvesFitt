@@ -1,0 +1,15 @@
+<div class="container">
+  <google-map height="500px" width="100%" [center]="center" [zoom]="zoom">
+    <map-marker *ngFor="let loc of locations" [position]="{lat: parseFloat(loc.lat), lng: parseFloat(loc.lng)}" [options]="MarkerOptions"
+      #marker="mapMarker" (mapClick)="openInfoWindow(marker, loc )" >
+      <!-- [label]="loc.name" -->
+    </map-marker>
+    <map-info-window #infoWindow>
+      <div *ngIf="selectedGym" class="customInfoWindow">
+        <img [src]="environment.imgUrl + 'gyms/' + selectedGym.logo"  alt="{{ selectedGym.name }}" (error)="handleImgError($event)">
+        <h6 class="mt-3 mb-3">{{ selectedGym.name }}</h6>
+        <button class="w-100" (click)="GoGymDetails(selectedGym.id)">View Details</button>
+      </div>
+    </map-info-window>
+  </google-map>
+</div>

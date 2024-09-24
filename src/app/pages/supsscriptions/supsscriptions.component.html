@@ -1,0 +1,200 @@
+<div class="topPageSpace"></div>
+
+<app-breadcrumb
+  [links]="BreadcrumbLinks"
+  currentTitle="Subscriptions"
+></app-breadcrumb>
+
+<section class="subscriptions">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 mb-4 my-2">
+        <span>{{'subscriptions.Found' | translate}} <b class="fw-bold">{{count}}</b> {{'subscriptions.previous Subscription' | translate}}</span>
+      </div>
+      <div *ngIf="noSubs">
+        <div class="container" >
+          <div class="row">
+            <div class="col-md-12">
+              <div class="text-center">
+                <div class="not_found">
+                  <h3 class="mb-2">{{'No Data Found' | translate}}</h3>
+                  <br>
+                  <button type="button" class="mx-auto"  [routerLink]="['/home']" routerLinkActive="router-link-active"> {{'Back To Home' | translate}} </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 mb-4 position-relative" style="height: 100px;" *ngIf="showLoader">
+        <div class="overlay"  >
+          <div class="loader">
+          </div>
+        </div>
+      </div>
+      <div
+        class="col-12 mb-4"
+        *ngFor="let item of Allsubscriptions; let i = index" #subscriptionsContainer
+      >
+        <div class="sup_item p-4" (click)="open(content , item)">
+          <div class="content">
+            <div
+              class="inner d-flex align-items-center justify-content-between"
+            >
+              <h4 class="title fw-bold mb-0">{{item?.gymName}}</h4>
+              <span class="fw-normal date c3"
+                ><i class="fa fa-calendar-o"></i> {{item?.start_date}}</span
+              >
+            </div>
+            <h5 class="c2 my-3">
+              {{item?.duration < 12 ? ('subscriptions.Monthly subscription' | translate) : ('subscriptions.Yearly subscription' | translate)}} 
+            </h5>
+            <div
+              class="inner d-flex align-content-center justify-content-between"
+            >
+              <p class="m-0">
+                <i class="fa fa-map-marker me-2"></i>{{item?.cityName +' , '+ item?.countryName}}
+              </p>
+              <!-- <ul class="list-unstyled d-flex align-items-center m-0">
+                <span>{{'subscriptions.Includes access to:' | translate}}</span>
+                <li>
+                  <img
+                    src="assets/images/icons/gym.png"
+                    class="ms-3"
+                    alt="gym"
+                  />
+                  {{'subscriptions.Gym' | translate}}
+                </li>
+                <li>
+                  <img
+                    src="assets/images/icons/classes.png"
+                    class="ms-3"
+                    alt="classes"
+                  />
+                  {{'subscriptions.Classes'  | translate}}
+                </li>
+              </ul> -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 text-center" >
+        <ngb-pagination
+          class="mb-4"
+          [collectionSize]="count"
+          [pageSize]="10"
+          [(page)]="page"
+          aria-label="pagination"
+          (pageChange)="onPageChange($event)"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div *ngIf="detailsError === false">
+    <div class="modal-header justify-content-between">
+      <h4 class="modal-title fw-bold" id="modal-basic-title">
+          {{ subscriptionInfo?.duration < 12 ? ('subscriptions.Monthly subscription' | translate) : ('subscriptions.Yearly subscription' | translate)}}
+      </h4>
+      <button
+        type="button"
+        class="btn-close m-0"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <div class="container position-relative">
+        <div class="content my-3">
+          <div class="inner d-flex align-items-center justify-content-between">
+            <h5 class="title fw-bold mb-0">
+              <a [routerLink]="['/gym' , subscriptionInfo?.gymId]" 
+              (click)="d('Cross click')"
+              class="text-decoration-none text-body"
+              >
+                {{subscriptionInfo?.gymName}}
+              </a>
+            </h5>
+            <div class="d-flex mb-8 align-items-center">
+              <ngb-rating [rate]="subscriptionInfo?.rate" [max]="5" [readonly]="true" />
+              <h1 class="ms-2 pt-1 m-0 fw-bold">{{subscriptionInfo?.rate | number:'1.1-1'}}</h1>
+              <span class="ms-2 pt-1">{{subscriptionInfo?.rateCount}} {{"subscriptions.reviews" | translate}}</span>
+            </div>
+          </div>
+  
+          <div
+            class="inner d-flex align-items-center justify-content-between my-2"
+          >
+            <span class="fw-normal date"
+              ><i class="fa fa-calendar-o"></i> {{'subscriptions.Start Date:' | translate}} {{subscriptionInfo?.start_date}}</span
+            >
+            <span class="fw-normal date"
+              ><i class="fa fa-calendar-o"></i> {{'subscriptions.End Date:' | translate}} {{subscriptionInfo?.end_date}}</span
+            >
+          </div>
+  
+          <div
+            class="inner d-flex align-content-center justify-content-between mt-3"
+          >
+
+            <p class="m-0">
+              <i class="fa fa-map-marker me-2"></i>{{subscriptionInfo?.cityName +','+ subscriptionInfo?.countryName}}
+            </p>
+            <!-- <ul class="list-unstyled d-flex align-items-center m-0">
+              <span>{{'subscriptions.Includes access to:' | translate}}</span>
+              <li>
+                <img src="assets/images/icons/gym.png" class="ms-3" alt="gym" />
+                {{'subscriptions.Gym' | translate}}
+              </li>
+              <li>
+                <img
+                  src="assets/images/icons/classes.png"
+                  class="ms-3"
+                  alt="classes"
+                />
+                {{'subscriptions.Classes' | translate}}
+              </li>
+            </ul> -->
+          </div>
+        </div>
+  
+        <div class="content my-3">
+          <div class="supscription_plan p-4 text-center rounded">
+            <h3 class="fw-bold my-3">{{ subscriptionInfo?.duration < 12 ? ('subscriptions.Monthly' | translate) : ('subscriptions.Yearly' | translate)}}</h3>
+            <p class="my-3 text-muted">{{'Access to Gym and Classes' | translate}}</p>
+            <div class="d-flex justify-content-center my-5">
+              <h1 class="fw-bold mb-0">
+                {{subscriptionInfo?.price}}
+              </h1>
+              <div class="text-start ms-3">
+                <p class="fw-bold m-0">{{'QAR' | translate}}</p>
+                <h3 class="fw-bold m-0 c2">{{'subscriptions.per' | translate}} {{subscriptionInfo?.duration < 12  ? ('subscriptions.Month' | translate) : ('subscriptions.Year' | translate)}}</h3>
+              </div>
+            </div>
+            <div [innerHTML]="subscriptionInfo?.gymDescription">
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="detailsError === true">
+    <div class="container" >
+      <div class="row">
+        <div class="col-md-12">
+          <div class="text-center">
+            <div class="not_found p-5">
+              <h3 class="mb-2">{{'No Data Found' | translate}}</h3>
+              <br>
+              <button type="button" class="mx-auto" (click)="d('Cross click')"> {{'close' | translate}} </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

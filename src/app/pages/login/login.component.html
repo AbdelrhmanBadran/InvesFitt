@@ -1,45 +1,49 @@
-<p-toast></p-toast>            
-<div class="container h-100">
-    <div class="row h-100">
-        <div class="col-12">
-            <div class="icons d-flex justify-content-between px-2">
-                <a [routerLink]="'/'">
-                    <i class="fa-solid fa-house"></i>
-                </a>
-                <a [routerLink]="'/pages/auth/main'">
-                    <i *ngIf="common.lang_code == 'ar'" class="fa-solid fa-arrow-left"></i>
-                    <i *ngIf="common.lang_code == 'en'" class="fa-solid fa-arrow-right"></i>
-                </a>
-            </div>
+<div class="topPageSpace"></div>
+
+<app-breadcrumb [links]="BreadcrumbLinks" currentTitle="LoginPage.login"></app-breadcrumb>
+
+<section class="login position-relative py-5 overflow-hidden">
+  <div class="container position-relative mx-auto">
+    <div class="row align-items-center">
+      <div class="col-12 col-md-10 col-lg-6 m-auto">
+        <div class="login_form bg-white rounded text-center">
+          <form [formGroup]="loginForm" (ngSubmit)="SubmitLogin()">
+            <h3 class="fw-bold mb-5">{{'LoginPage.loginMsg'|translate}}</h3>
+            <input class="form-control mb-3 rounded" type="email" formControlName="email" [placeholder]="'LoginPage.Email'|translate">
+            <span class="text-start errorMsg" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+              {{'LoginPage.ValidationMessageEmail'|translate}}
+            </span>
+            <input class="form-control mb-3 rounded" type="password" formControlName="password" [placeholder]="'LoginPage.password'|translate">
+            <span class="text-start errorMsg" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+              {{'LoginPage.PasswordMinLength'|translate}}
+            </span>
+            <div class="mt-2 mb-4 text-end"><a class="text-decoration-none text-muted" [routerLink]="['/forget-password']" routerLinkActive="router-link-active" >{{'LoginPage.Forgotten your password' | translate}}</a></div>
+            <button class="w-100 rounded" type="submit">{{'LoginPage.login'|translate}}</button>
+          </form>
+          <ngb-alert class="mt-4" type="danger" (closed)="closeAlert()" *ngIf="notValidUser">{{'Sorry , The email or password is not valid' | translate}}</ngb-alert>
+          <ngb-alert class="mt-4" type="danger" (closed)="closeAlert()" *ngIf="notValidSocialUser">{{'Sorry , User not found please sign up first' | translate}}</ngb-alert>
+
+          <h3 class="fw-bold text-center my-4">{{'OR' | translate}}</h3>
+
+          <div class="sochial_btns">
+            <button class="btn-block mb-3 w-100 facebook rounded" (click)="signinWithSocialApp('facebook')">
+              <i class="fa fa-facebook-square"></i> {{'Continue with Facebook' | translate}}
+            </button>
+            <button class="btn-block mb-3 w-100 google rounded" (click)="signinWithSocialApp('google')">
+              <i class="fa fa-google"></i> {{'Continue with Google' | translate}}
+            </button>
+            <button class="btn-block mb-3 w-100 apple rounded" (click)="signinWithSocialApp('apple')">
+              <i class="fa fa-apple"></i> {{'Continue with Apple' | translate}}
+            </button>
+          </div>
+
+
         </div>
-        <div class="col-12">   
-            <form [formGroup]="loginForm" (ngSubmit)="login(loginForm)">
-                <div class="d-flex justify-content-start align-items-start flex-column gap-3 login">
-                    <h1>{{'log In' | translate}} , </h1>
-                    <h3>{{'You already have account' | translate}}</h3>
-                    <label for="email">{{'email' | translate}}</label>
-                    <input type="email"  class="form-control" readonly id="email" placeholder="{{'Enter your email' | translate}}" formControlName="email" [class]="(loginForm.get('email')?.dirty && loginForm.get('email')?.getError('required')) || (loginForm.get('email')?.dirty && loginForm.get('email')?.getError('pattern')) ? 'border border-danger border-2' : ''">
-                    <span style="color:red" *ngIf="loginForm.dirty && loginForm.get('email')?.getError('required')">{{'Enter your email' |translate }}</span>
-                    <span style="color:red" *ngIf="loginForm.dirty && loginForm.get('email')?.getError('pattern') && loginForm.get('email')?.errors">{{'Enter valid email' | translate  }}</span>  
-                    
-                    <div class="w-100 password-input">
-                        <label for="password">{{'password' | translate}}</label>
-                        <br>
-                        <p-password id="password" class="w-100" [feedback]="false" [toggleMask]="true" formControlName="password" ></p-password>
-                        <br>
-                        <span style="color:red" *ngIf="loginForm.get('password')?.dirty && loginForm.get('password')?.getError('required')">{{'password is required' |translate }}</span>
-                    </div>
-
-
-
-
-
-
-
-                    <button class="btn bg-main text-white w-100 next-btn">{{'log In' | translate}}</button>
-                    <a [routerLink]="['/pages/auth/forget']" class="d-block w-100 text-center forget-btn">{{'Forget password' | translate}}</a>
-                </div>
-            </form>
-        </div>
+      </div>
     </div>
+  </div>
+</section>
+<div class="overlay-background position-fixed" *ngIf="showLoader">
+  <div class="loader">
+  </div>
 </div>

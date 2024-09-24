@@ -3,18 +3,11 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "daleelElSooq": {
+    "InvesFit": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss",
-          "standalone": false
-        },
-        "@schematics/angular:directive": {
-          "standalone": false
-        },
-        "@schematics/angular:pipe": {
-          "standalone": false
+          "style": "scss"
         }
       },
       "root": "",
@@ -24,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/daleel-el-sooq",
+            "outputPath": "dist/InvesFit",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -34,17 +27,9 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              "src/manifest.json",
-              "src/firebase-messaging-sw.js"
+              "src/assets"
             ],
             "styles": [
-              "node_modules/ngx-spinner/animations/ball-clip-rotate.css",
-              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
-              "@angular/material/prebuilt-themes/deeppurple-amber.css",
-              "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
-              "node_modules/primeng/resources/primeng.min.css",
-              "node_modules/primeicons/primeicons.css",
               "src/styles.scss"
             ],
             "scripts": [],
@@ -60,7 +45,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
-                  "maximumError": "5mb"
+                  "maximumError": "4mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -73,13 +58,7 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true,
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.development.ts"
-                }
-              ]
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -88,10 +67,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "daleelElSooq:build:production"
+              "buildTarget": "InvesFit:build:production"
             },
             "development": {
-              "buildTarget": "daleelElSooq:build:development"
+              "buildTarget": "InvesFit:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -99,7 +78,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "daleelElSooq:build"
+            "buildTarget": "InvesFit:build"
           }
         },
         "test": {
@@ -116,7 +95,6 @@
               "src/assets"
             ],
             "styles": [
-              "@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -126,6 +104,6 @@
     }
   },
   "cli": {
-    "analytics": "0246b5ea-ca60-4c49-8f86-a7897ee0fa9a"
+    "analytics": "65b353f4-e32a-4999-951e-eeeb300c4b08"
   }
 }

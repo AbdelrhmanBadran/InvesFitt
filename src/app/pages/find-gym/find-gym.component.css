@@ -1,0 +1,54 @@
+.gym-list{
+  .container {
+    background-color: #f7f7f7;
+    padding: 30px;
+    border-radius: 10px;
+  }
+  .gym_item {
+    height: 100%;
+    background: #fff;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all ease-in-out 200ms;
+    &:hover {
+      box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.07);
+    }
+  }
+}
+.container-filter
+{
+  transition: 0.5s all ease-in-out;
+}
+.dropdown{
+  .dropdown-toggle::after{
+    display: none;
+  }
+}
+
+.minMax{
+  span{
+    font-size: 12px;
+  }
+}
+
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  .checkbox-btn {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    background-color: white;
+    cursor: pointer;
+    border-radius: 50px;
+    color: var(--font-color);
+  }
+
+  .checkbox-btn.active {
+    background-color: #333;
+    color: white;
+  }
+
+}
+

@@ -1,0 +1,387 @@
+<div class="topPageSpace"></div>
+
+<app-breadcrumb [links]="BreadcrumbLinks" [currentTitle]=""></app-breadcrumb>
+<section class="gym-list p-0 mb-3">
+  <div class="container">
+    <div class="inner d-flex align-items-center justify-content-between">
+      <h3 class="title fw-bold mb-0">{{gymInfo?.name}}</h3>
+      <div class="d-flex mb-8 align-items-center">
+        <ngb-rating [rate]="gymInfo?.rate" [max]="5" [readonly]="true" />
+        <h1 class="ms-2 pt-1 m-0 fw-bold">{{gymInfo?.rate|number:'1.1-1'}}</h1>
+        <span class="ms-2 pt-1">{{ratings?.length}} {{'gym.reviews' | translate}}</span>
+      </div>
+    </div>
+    <div class="inner d-flex align-content-center justify-content-between mt-3 flex-wrap">
+      <a class="m-0 text-decoration-none text-body" (click)="goTomaps(gymInfo?.lat,gymInfo?.lng)">
+        <i class="fa fa-map-marker me-2"></i>{{gymInfo?.cityName}} , {{gymInfo?.countryName}}
+      </a>
+      <ul class="list-unstyled d-flex align-items-center flex-wrap gap-1 m-0" *ngIf="options?.length > 0">
+        <span>{{'gym.Includes access to:' | translate}}</span>
+        <li *ngFor="let option of options">
+          <img width="20" height="20" class="rounded-2 ms-3" [src]="environment.imgUrl + 'options/' + option.logo" alt="gym"  onerror="this.src='assets/images/icons/gym.png'" />
+          <span>
+            {{option.name}}
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="pt-5">
+  <div class="container">
+    <div class="photo-grid row">
+      <div class="col-12 col-md-6 main-photo">
+        <img [src]="environment.imgUrl + 'gyms/' + gymInfo?.logo" alt="Main Photo" class="img-fluid rounded" (error)="handleGymImageError($event)"
+          (click)="openImageGallery(photoGallery,0)" />
+      </div>
+      <div class="sub-photo-grid col-12 col-md-6 p-0">
+        <div class="sub-photo row">
+          <div class="col-12 col-md-6" *ngFor="let image of images ; let i = index">
+            <img [src]="environment.imgUrl + 'gyms/' + image" alt="Photo 1" class="img-fluid rounded"
+            onerror="this.src='assets/images/gyms/gym-2.png'"
+            (click)="openImageGallery(photoGallery,i+1)" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bg3" *ngIf="plans?.length > 0">
+  <div class="container">
+    <div class="sec_title text-center mb-5">
+      <h2 class="mb-3">{{'gym.Subscriptions' | translate}}</h2>
+      <p class="mb-3 mx-auto w-75">{{'gym.Choose Your Plan' | translate}}</p>
+    </div>
+    <div class="row gy-2 justify-content-around">
+      <div class="col-12 col-md-4" *ngFor="let plan of plans let index = index">
+        <div class="supscription_plan p-4 py-5 text-center rounded d-flex flex-column"  >
+          <div class="icon mb-4">
+            <i class="fa fa-users"></i>
+          </div>
+          <h3 class="fw-bold my-3">{{plan.duration < 12 ?  ('gym.Monthly' | translate) : ('gym.Yearly' | translate)}}</h3>
+          <p class="my-3 text-muted">{{plan?.title}}</p>
+          <div class="d-flex justify-content-center my-5">
+            <h1 class="fw-bold mb-0">{{ plan?.price }}</h1>
+            <div class="text-start ms-3">
+              <p class="fw-bold m-0">{{'QAR' | translate}}</p>
+              <h3 class="fw-bold m-0 c2">{{plan.duration < 12 ? ('gym.Month' | translate) : ('gym.Year' | translate)}}</h3>
+            </div>
+          </div>
+          <ul class="list-unstyled">
+            <li class="mb-2">
+              <span>{{'gym.duration' | translate}} : </span>
+              <span class="text-muted">{{plan?.duration >= 12 ?  (plan?.duration  / 12 | number:'1.1-1') + ' ' +  ('gym.Year' | translate) : plan?.duration + ' ' +('gym.Month' | translate) + '(s)'}}</span>
+            </li>
+            <li class="mb-2 text-muted">
+              <span [innerHTML]="plan?.description"></span>
+            </li>
+          </ul>
+          <button type="button" class="w-100 rounded btn btn-dark"
+            (click)="openSupscripeModal(supscripeModal , index)">{{'gym.Subscribe Now' | translate}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 m-auto">
+        <div class="about">
+          <div class="sec_title mb-5">
+            <h1 class="mb-5 text-black fw-bold">{{'gym.About the Gym' | translate}}</h1>
+            <div [innerHTML]="gymInfo?.description"></div>
+          </div>
+        </div>
+        <div class="rating border_top border_bottom pb-5 m-auto"  >
+          <div class="sec_title mb-5 mt-5">
+            <h1 class="mb-5 text-black fw-bold">{{'gym.What people are saying' | translate}}</h1>
+          </div>
+
+          <div class="ratingList"  >
+            <div class="row">
+              <div class="col-12 col-md-5">
+                <div class="d-flex mb-4 align-items-center justify-content-between">
+                  <ngb-rating [rate]="gymInfo?.rate" [max]="5" [readonly]="true" />
+                  <div class="d-flex align-items-center">
+                    <h3 class="ms-2 pt-1 m-0 fw-bold">{{gymInfo?.rate|number:'1.1-1'}}</h3>
+                    <span class="ms-2 pt-1">{{ratings?.length}} {{'gym.reviews' | translate }}</span>
+                  </div>
+                </div>
+                <div class="d-flex mb-3 align-items-center justify-content-between">
+                  <span class="pt-1">{{'gym.Accessibility' | translate}}</span>
+                  <div class="d-flex align-items-center">
+                    <ngb-rating [rate]="accesibiltyRating / ratings?.length" [max]="5" [readonly]="true" />
+                    <h5 class="ms-2 pt-1 m-0">{{accesibiltyRating / ratings?.length | number:'1.1-1' }}</h5>
+                  </div>
+                </div>
+                <div class="d-flex mb-3 align-items-center justify-content-between">
+                  <span class="pt-1">{{'gym.Price' | translate}}</span>
+                  <div class="d-flex align-items-center">
+                    <ngb-rating [rate]="ratingPrice / ratings?.length" [max]="5" [readonly]="true" />
+                    <h5 class="ms-2 pt-1 m-0">{{ratingPrice / ratings?.length | number:'1.1-1' }}</h5>
+                  </div>
+                </div>
+                <div class="d-flex mb-3 align-items-center justify-content-between">
+                  <span class="pt-1">{{'gym.Facilities available'  | translate}}</span>
+                  <div class="d-flex align-items-center">
+                    <ngb-rating [rate]="Facilities_available / ratings?.length" [max]="5" [readonly]="true" />
+                    <h5 class="ms-2 pt-1 m-0">{{Facilities_available / ratings?.length | number:'1.1-1' }}</h5>
+                  </div>
+                </div>
+                <div class="d-flex mb-3 align-items-center justify-content-between">
+                  <span class="pt-1">{{'gym.Range of facilities' | translate}}</span>
+                  <div class="d-flex align-items-center">
+                    <ngb-rating [rate]="Range_of_facilities / ratings?.length" [max]="5" [readonly]="true" />
+                    <h5 class="ms-2 pt-1 m-0">{{Range_of_facilities / ratings?.length | number:'1.1-1' }}</h5>
+                  </div>
+                </div>
+                <div class="d-flex mb-3 align-items-center justify-content-between">
+                  <span class="pt-1">{{'gym.Customer service' | translate}}</span>
+                  <div class="d-flex align-items-center">
+                    <ngb-rating [rate]="Customer_service / ratings?.length" [max]="5" [readonly]="true" />
+                    <h5 class="ms-2 pt-1 m-0">{{Customer_service / ratings?.length | number:'1.1-1' }}</h5>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 mt-4" *ngIf="subscribed_status == 'subscribed'">
+                <button class="rounded btn btn-dark mb-4"  (click)="OpenRatingModal(RatingModal , {} , 'Add')">{{'gym.Add Review to the gym' | translate}}</button>
+              </div>
+            </div>
+          </div>
+          <div class="comments mt-4" *ngIf="comments?.length > 0">
+            <ng-container *ngFor="let item of commentsInView, let i = index">
+              <div class="comment mt-4 pt-4 border_top d-flex justify-content-between">
+                <div class="content">
+                  <div class="d-flex mb-3 align-items-center">
+                    <div class="img me-3">
+                      <img [src]="item?.img" (click)="handleUserImageError($event)" class="rounded" width="60" height="60" alt="" />
+                    </div>
+                    <div>
+                      <span class="fw-bold mb-2" >{{item?.author}}</span>
+                      <div class="d-flex align-items-center">
+                        <ngb-rating [rate]="item?.rating" [max]="5" [readonly]="true" />
+                        <h5 class="ms-2 pt-1 m-0">{{item?.rating|number:'1.1-1'}}</h5>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-gray-400 mb-0" [innerHTML]="item?.comment">
+                    
+                  </div>
+                </div>
+                <div *ngIf="item.user_id == userData?.id">
+                  <div ngbDropdown class="d-inline-block">
+                    <button type="button" class="rounded-2 p-2"  id="dropdownBasic1" ngbDropdownToggle>
+                      <i class="fa fa-sliders"></i>
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                      <button ngbDropdownItem  (click)="DeleteComment(item , i)">
+                        <i class="fa fa-trash cursor-pointer text-danger fs-4" aria-hidden="true"></i>
+                        {{'gym.Delete' | translate}}
+                      </button>
+                      <button ngbDropdownItem (click)="OpenRatingModal(RatingModal , item , 'Edit' , i)">
+                        <i class="fa fa-pencil cursor-pointer text-warning fs-4" aria-hidden="true"></i>
+                        {{'gym.Edit' | translate}}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+
+          </div>
+
+          <div class="load-more mt-4">
+            <button class="load-more-btn white_outline w-100" (click)="LoadMore()"
+              *ngIf="commentsInView?.length != comments?.length">{{'gym.Load More' | translate}}</button>
+          </div>
+        </div>
+        <app-faq></app-faq>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #photoGallery let-modal>
+  <div class="modal-header">
+    <button type="button" class="btn-close text-white" aria-label="Close"
+      (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <app-photo-gallery [images]="allImages" [currentIndex]="imageIndex"></app-photo-gallery>
+  </div>
+</ng-template>
+
+
+<ng-template #supscripeModal let-modal>
+  <div class="modal-header">
+    <button type="button" class="btn-close text-white" aria-label="Close"
+      (click)="modal.dismiss('Cross click');willReplacePoints = false"></button>
+  </div>
+  <div class="modal-body">
+    <div class="content mb-3">
+      <div class="supscription_plan p-4 text-center rounded">
+        <div class="d-flex justify-content-center my-3">
+          <h1 class="fw-bold mb-0">
+            {{SubscribtionData.total}}
+          </h1>
+          <div class="text-start ms-3">
+            <p class="fw-bold m-0">{{'QAR' | translate}}</p>
+            <h3 class="fw-bold m-0 c2">
+              {{SubscribtionData?.duration < 12 ? ('gym.Month' | translate) : ('gym.Year' | translate)}}
+            </h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mx-auto border rounded" *ngIf="userData?.points">
+      <div class="bg-white rounded">
+        <div class="d-flex align-items-center justify-content-between position-relative p-4">
+          <div>
+            <h6 class="mb-0 fw-bold">{{'gym.You have' | translate}} {{SubscribtionData.points | number:'1.1-1'}} {{'gym.points worth' | translate}} {{SubscribtionData.pointsValue}} {{'gym.pounds. Would you like to replace them?' | translate}}</h6>
+          </div>
+          <button type="button" class="rounded btn btn-dark" *ngIf="SubscribtionData.pointsValue > 0 && !willReplacePoints" (click)="RepalcePoints()">{{'gym.Replace' | translate}}</button>
+          <button type="button" class="rounded btn btn-dark" *ngIf="SubscribtionData.pointsValue > 0 && willReplacePoints" (click)="DontRepalcePoints()">{{"Don't Replace" | translate}}</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-3 methode border">
+      <div class="d-flex mw-xs mx-auto align-items-center">
+        <div class="d-inline-flex align-content-center image me-3">
+          <img src="assets/images/pay.png" alt="Paypal" />
+        </div>
+        <div class="content w-100">
+          <h5 class="ms-6">{{'gym.Payment via' | translate}} </h5>
+          <h6 class="m-0">{{'gym.Visa or MasterCard' | translate}}</h6>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="totals border_top pt-3 mt-3">
+      <ul>
+        <li *ngIf="SubscribtionData.pointsValue > 0 && willReplacePoints"><span>{{'gym.Paid from points' | translate}}</span> <span>{{SubscribtionData.pointsValue}}</span></li>
+        <li><span>{{'gym.Paid with visa' | translate}}</span> <span>{{SubscribtionData.remaining}}</span></li>
+        <li><span>{{'gym.Total' | translate}}</span> <span>{{SubscribtionData.total}}</span></li>
+      </ul>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-dark rounded" (click)="modal.dismiss('Cross click');willReplacePoints = false;">{{'gym.Close' | translate}}</button>
+    <button type="button" class="rounded" (click)="addsubscription()">{{'gym.Subscribe' | translate}}</button>
+  </div>
+</ng-template>
+<app-redirect *ngIf="redirectOn" [enrollData]="enrollData"></app-redirect>
+
+
+
+<ng-template #RatingModal let-modal>
+  <div class="modal-header">
+    <button type="button" class="btn-close text-white" aria-label="Close"
+      (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div *ngIf="addCommentError" class="px-2">
+    <ngb-alert class="mt-4" type="danger" (closed)="closeAlert()">add comment or any rating for at least one value</ngb-alert>
+  </div>
+  <div class="modal-body">
+    <div class="content">
+      <div class="d-flex mb-3 align-items-center">
+        <div class="img me-3">
+          <img [src]="environment.imgUrl + 'users/' + userData?.img" (error)="handleUserImageError($event)" class="rounded" width="60" height="60" alt="user-img" style="object-fit: cover;" />
+        </div>
+        <div>
+          <span class="fw-bold mb-2">{{userData?.first_name + ' ' + userData?.last_name}}</span>
+          <div class="d-flex align-items-center">
+            <ngb-rating [rate]="5" [max]="5" [readonly]="true" [(rate)]="newComment.rating" />
+            <h5 class="ms-2 pt-1 m-0">{{newComment.rating|number:'1.1-1'}}</h5>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="d-flex mb-3 align-items-center justify-content-between">
+            <span class="pt-1">{{'gym.Accessibility' | translate}}</span>
+            <div class="d-flex align-items-center">
+              <ngb-rating [rate]="4" [max]="5" [readonly]="false" [(rate)]="newComment.Accessibility" (rateChange)="RateChanged()"/>
+              <h5 class="ms-2 pt-1 m-0">{{newComment.Accessibility|number:'1.1-1'}}</h5>
+            </div>
+          </div>
+          <div class="d-flex mb-3 align-items-center justify-content-between">
+            <span class="pt-1">{{'gym.Price' | translate}}</span>
+            <div class="d-flex align-items-center">
+              <ngb-rating [rate]="3" [max]="5" [readonly]="false" [(rate)]="newComment.price" (rateChange)="RateChanged()"/>
+              <h5 class="ms-2 pt-1 m-0">{{newComment.price|number:'1.1-1'}}</h5>
+            </div>
+          </div>
+          <div class="d-flex mb-3 align-items-center justify-content-between">
+            <span class="pt-1">{{'gym.Facilities available'  | translate}}</span>
+            <div class="d-flex align-items-center">
+              <ngb-rating [rate]="4" [max]="5" [readonly]="false" [(rate)]="newComment.Facilities_available" (rateChange)="RateChanged()"/>
+              <h5 class="ms-2 pt-1 m-0">{{newComment.Facilities_available|number:'1.1-1'}}</h5>
+            </div>
+          </div>
+          <div class="d-flex mb-3 align-items-center justify-content-between">
+            <span class="pt-1">{{'gym.Range of facilities' | translate}}</span>
+            <div class="d-flex align-items-center">
+              <ngb-rating [rate]="3" [max]="5" [readonly]="false" [(rate)]="newComment.Range_of_facilities" (rateChange)="RateChanged()"/>
+              <h5 class="ms-2 pt-1 m-0">{{newComment.Range_of_facilities|number:'1.1-1'}}</h5>
+            </div>
+          </div>
+          <div class="d-flex mb-3 align-items-center justify-content-between">
+            <span class="pt-1">{{'gym.Customer service' | translate}}</span>
+            <div class="d-flex align-items-center">
+              <ngb-rating [rate]="5" [max]="5" [readonly]="false" [(rate)]="newComment.Customer_service" (rateChange)="RateChanged()"/>
+              <h5 class="ms-2 pt-1 m-0">{{newComment.Customer_service|number:'1.1-1'}}</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex align-items-center">
+        <textarea class="form-control w-100 rounded" [(ngModel)]="newComment.comment" placeholder="{{'gym.Your Comment' | translate}}"
+          rows="2">
+      </textarea>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-dark rounded" (click)="modal.dismiss('Cross click')">{{'gym.Close' | translate}}</button>
+    <button type="button" class="rounded" (click)="AddComment()">
+      <span *ngIf="type == 'Add'">
+        {{'gym.Add Review' | translate }}
+      </span>
+      <span *ngIf="type == 'Edit'">
+        {{'gym.Edit Review' | translate }}
+      </span>
+    </button>
+  </div>
+</ng-template>
+
+<!-- *start toaster -->
+  <ng-template #dangerTpl>
+    <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" width="24" height="24" viewBox="0 0 24 24">
+      <path
+      d="M10.872 6.831l1.695 3.904 3.654-1.561-1.79 3.426 3.333.954-3.417 1.338 2.231 4.196-4.773-2.582-2.869 2.287.413-3.004-3.792-.726 2.93-1.74-1.885-2.512 3.427.646.843-4.626zm-.786-6.831l-1.665 9.119-6.512-1.228 3.639 4.851-5.548 3.294 7.108 1.361-.834 6.076 5.742-4.577 9.438 5.104-4.288-8.064 6.834-2.677-6.661-1.907 3.25-6.22-6.98 2.982-3.523-8.114z"
+      />
+    </svg>
+    {{'Comment deleted successfully' | translate}}
+  </ng-template>
+  <ng-template #successTpl> 
+    <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" width="24" height="24" viewBox="0 0 24 24">
+      <path d="M20.285,2.961l-11.34,15.48l-5.94-5.94L0,16.502l8.944,8.944l14.365-19.5L20.285,2.961z"/>
+    </svg>
+    {{'Comment added successfully' | translate}}
+  </ng-template>
+  <ng-template #warningTpl> 
+    <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" width="24" height="24" viewBox="0 0 24 24">
+      <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+    </svg>
+    {{'Comment edited successfully' | translate}}
+  </ng-template>
+  <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+<!-- *End toaster -->

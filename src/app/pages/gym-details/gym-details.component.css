@@ -1,0 +1,95 @@
+.photo-grid {
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .col-12 {
+    padding: 5px;
+  }
+  .row {
+    margin: 0;
+  }
+  .all-photos {
+    position: relative;
+    .all-photos-btn {
+      position: absolute;
+      bottom: 15px;
+      right: 15px;
+      background: #fff;
+      color: var(--font-color);
+      border: 2px solid var(--font-color);
+    }
+  }
+}
+.supscription_plan{
+  height: 100%;
+}
+.comment {
+  img {
+    object-fit: cover;
+  }
+}
+.add-comment {
+  textarea {
+    align-self: stretch;
+  }
+  button {
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+  }
+}
+
+.methode {
+  border-radius: 8px;
+  padding: 10px 15px;
+  cursor: pointer;
+  .image {
+    background: #f2f2f2;
+    border-radius: 10px;
+  }
+  img {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+  }
+  p {
+    i {
+      margin-inline-start: auto;
+      color: var(--secondary_color);
+      float: right;
+      cursor: pointer;
+    }
+  }
+}
+
+.totals {
+  ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    li {
+      padding: 6px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      span {
+        font-size: 16px;
+      }
+      span:last-child {
+        font-weight: bold;
+      }
+    }
+  }
+}
+.comment{
+  .dropdown-toggle::after{
+    display: none;
+  }
+}
+.list-unstyled{
+  padding-left: 2rem;
+}

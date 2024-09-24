@@ -1,0 +1,151 @@
+
+<div class="topPageSpace"></div>
+
+<app-breadcrumb [links]="BreadcrumbLinks" currentTitle="Register"></app-breadcrumb>
+
+
+<section class="login position-relative py-5 overflow-hidden">
+  <div class="container position-relative mx-auto">
+  <div class="row align-items-center">
+      <div class="col-12 col-md-10 col-lg-6 m-auto">
+        <div class="login_form bg-white rounded text-center">
+          <a [routerLink]="['/login']" class="fs-5 mb-4 text-decoration-none d-block text-black" > {{'SignUpPage.Have account?' | translate}} <span class="fw-bolder"> {{'SignUpPage.Login' | translate}} </span></a>
+          <h3 class="fw-bold mb-5">{{'SignUpPage.New to InvesFit? Register for free' | translate}}</h3>
+          
+          <div class="sochial_btns">
+            <button class="btn-block mb-3 w-100 facebook rounded" (click)="signinWithSocialApp('facebook')">
+              <i class="fa fa-facebook-square"></i> {{'Continue with Facebook' | translate}}
+            </button>
+            <button class="btn-block mb-3 w-100 google rounded" (click)="signinWithSocialApp('google')">
+              <i class="fa fa-google"></i> {{'Continue with Google' | translate}}
+            </button>
+            <button class="btn-block mb-3 w-100 apple rounded" (click)="signinWithSocialApp('apple')">
+              <i class="fa fa-apple"></i> {{'Continue with Apple' | translate}}
+            </button>
+          </div>
+
+          <ngb-alert class="mt-4" type="danger" (closed)="closeAlert()" *ngIf="ExistUser">{{'Email or Phone already exists' | translate}}</ngb-alert>
+          <ngb-alert class="mt-4" type="danger" (closed)="closeAlert()" *ngIf="somethingWrongErr">{{'some thing went wrong' | translate}}</ngb-alert>
+          <ngb-alert class="mt-4" type="danger" (closed)="closeAlert()" *ngIf="mobileErr">{{'Enter a valid phone number' | translate}}</ngb-alert>
+          <h3 class="fw-bold text-center my-4">{{'SignUpPage.Or Register with Email' | translate}}</h3>
+
+          <form [formGroup]="SignupForm" (ngSubmit)="SubmitSignup()">
+            <div class="row">
+              <div class="col-12 col-md-6">
+                <input class="form-control mb-3 rounded" type="text" formControlName="first_name" placeholder="{{'SignUpPage.First Name' | translate}}">
+                <span class="text-start errorMsg" *ngIf="SignupForm.get('first_name')?.invalid && SignupForm.get('first_name')?.touched">
+                  {{'SignUpPage.ValidationMessageFirstName'|translate}}
+                </span>
+              </div>
+              <div class="col-12 col-md-6">
+                <input class="form-control mb-3 rounded" type="text" formControlName="last_name" placeholder="{{'SignUpPage.Last Name' | translate}}">
+                <span class="text-start errorMsg" *ngIf="SignupForm.get('last_name')?.invalid && SignupForm.get('last_name')?.touched">
+                  {{'SignUpPage.ValidationMessageLastName'|translate}}
+                </span>
+              </div>
+              <div class="col-12 col-md-12">
+                <input class="form-control mb-3 rounded" type="email" formControlName="email" placeholder="{{'SignUpPage.Email' | translate}}">
+                <span class="text-start errorMsg" *ngIf="SignupForm.get('email')?.invalid && SignupForm.get('email')?.touched">
+                  {{'SignUpPage.ValidationMessageEmail'|translate}}
+                </span>
+              </div>
+              <div class="col-12 col-md-12">
+                <input class="form-control mb-3 rounded" type="password" formControlName="password" placeholder="{{'SignUpPage.password' | translate}}">
+                <span class="text-start errorMsg" *ngIf="SignupForm.get('password')?.invalid && SignupForm.get('password')?.touched">
+                  {{'SignUpPage.PasswordMinLength'|translate}}
+                </span>
+              </div>
+              <div class="col-12 col-md-12">
+                <input class="form-control mb-3 rounded" type="password" formControlName="rePassword" placeholder="{{'SignUpPage.confirm Password' | translate}}">
+                <span class="text-start errorMsg" *ngIf="SignupForm.get('rePassword')?.invalid && SignupForm.get('rePassword')?.touched">
+                  {{'SignUpPage.rePasswordError'|translate}}
+                </span>
+              </div>
+              <div class="col-3">
+                <select class="form-select mb-3 rounded" type="tel" formControlName="countryKey">
+                  <option *ngFor="let code of countryCodes" [value]="code">{{code}}</option>
+                </select>
+              </div>
+              <div class="col-9">
+                <input class="form-control mb-3 rounded" type="tel" formControlName="mobile" placeholder="{{'SignUpPage.phone' | translate}}">
+                <span class="text-start errorMsg" *ngIf="SignupForm.get('mobile')?.getError('required') && SignupForm.get('mobile')?.touched">
+                  {{'SignUpPage.ValidationMessagePhone'|translate}}
+                </span>
+                <span class="text-start errorMsg" *ngIf="SignupForm.get('mobile')?.getError('pattern') && SignupForm.get('mobile')?.touched">
+                  {{'SignUpPage.ValidationMessagePhoneLength'|translate}}
+                </span>
+              </div>
+              <div class="col-12 col-md-6">
+                <input class="form-control mb-3 rounded" type="tel" formControlName="postcode" placeholder="{{'SignUpPage.postalCode' | translate}}">
+                <!-- <span class="text-start errorMsg" *ngIf="SignupForm.get('postcode')?.invalid && SignupForm.get('postcode')?.touched">
+                  {{'SignUpPage.ValidationMessageEmail'|translate}}
+                </span> -->
+              </div>
+
+              <div class="col-12 col-md-6">
+                <select class="form-select mb-3 rounded" type="tel" formControlName="findUs">
+                  <option value="" disabled>{{'SignUpPage.How did you find us' | translate}}</option>
+                  <option value="Youtube">{{'On Youtube' | translate}}</option>
+                  <option value="Facebook">{{'From Facebook' | translate}}</option>
+                  <option value="friend">{{'From a friend' | translate}}</option>
+                </select>
+              </div>
+            </div>
+            <button class="w-100" type="submit">{{'SignUpPage.Signup' | translate}}</button>
+          </form>
+          <ngb-alert class="mt-4" type="danger" (closed)="closeAlert()" *ngIf="notValidUser">{{'Sorry , Check the All Inputs' | translate}}</ngb-alert>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="overlay-background position-fixed" *ngIf="showLoader">
+  <div class="loader">
+  </div>
+</div>
+
+<ng-template #content let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">{{'Complete Profile Submission' | translate}}</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<form (ngSubmit)="completeSubmission()">
+			<div class="mb-3">
+				<label for="name" *ngIf="userInputShow">{{'Your Name' | translate}}</label>
+				<div class="input-group mb-2" *ngIf="userInputShow">
+					<input
+            type="text"
+						id="name"
+						name="username"
+            [(ngModel)]="userName"
+            class="form-control"
+						placeholder="Enter Your Name"
+					/>
+				</div>
+        <span class="text-start errorMsg" *ngIf="invalidUserName">
+          {{'SignUpPage.ValidationMessageName' | translate}}
+        </span>
+				<label for="phone">{{'Your phone' | translate}}</label>
+				<div class="input-group">
+					<input
+            type="text"
+						id="phone"
+						name="phone"
+            [(ngModel)]="userPhone"
+            class="form-control"
+						placeholder="Enter Your phone"
+					/>
+				</div>
+        <span class="text-start errorMsg" *ngIf="invalidUserphone">
+          {{'SignUpPage.ValidationMessagePhoneLength' | translate}}
+        </span>
+			</div>
+      <button class="">
+        {{"submit" | translate}}
+      </button>
+		</form>
+	</div>
+</ng-template>
+

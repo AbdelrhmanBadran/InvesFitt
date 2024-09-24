@@ -1,0 +1,155 @@
+<div class="topPageSpace"></div>
+
+<app-breadcrumb [links]="BreadcrumbLinks" currentTitle="Find a Gym Near Me"></app-breadcrumb>
+
+
+
+<section class="gym-list">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 mb-4 my-2">
+        <div class="d-flex justify-content-between">
+          <div *ngIf="nearGym.length > 0">
+            {{'findGym.Wefound' | translate}}<b class="fw-bold"> {{nearGym?.length}}</b> {{'findGym.gyms within' | translate}} <b class="fw-bold">20</b> {{'KM'}}
+          </div>
+          <button class="ms-4 black_outline" (click)="ToggleShowFilter()" *ngIf="showFilter">{{'findGym.Close Filter' | translate}} </button>
+        </div>
+      </div>
+      <div class="d-flex align-items-center justify-content-between flex-wrap mb-4 gap-2">
+        <!-- search form -->
+        <ng-container *ngIf="!showFilter">
+          <form (ngSubmit)="SubmitSearch()">
+            <div class="d-flex align-items-center">
+              <div class="form-froup w-100">
+                <input type="text" class="form-control" name="Location" [placeholder]="'general.locationPlaceholder' | translate"
+                [(ngModel)]="SearchValue">
+              </div>
+              <button type="submit" >{{'findGym.Search' |translate}}</button>
+            </div>
+          </form>
+        </ng-container>
+        <!-- filter form -->
+        <ng-container *ngIf="showFilter">
+            <div class="row mb-2">
+              <div class="col-12 col-md-6">
+                <div class="form-group">
+
+                  <h6 for="formControlRange" class="mb-2">{{'findGym.within' | translate}} {{distance}} {{'KM'}} </h6>
+                  <input type="range" min="1" max="2000" class="form-control-range w-100" [(ngModel)]="distance">
+                  <div class="minMax d-flex justify-content-between">
+                    <span class="text-muted">1 {{'KM'}}</span>
+                    <span class="text-muted">2000 {{'KM'}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-6">
+                <div class="form-group">
+                  <h6 for="formControlRange" class="mb-2">{{'findGym.Monthly+ budget' | translate}} {{budget}} {{'QAR' | translate}} </h6>
+                  <input type="range" min="10" max="1000" class="form-control-range w-100" [(ngModel)]="budget">
+                  <div class="minMax d-flex justify-content-between">
+                    <span class="text-muted">10{{'QAR' | translate}}</span>
+                    <span class="text-muted">1000{{'QAR' | translate}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 mt-5">
+                <h6>{{'findGym.Amenities' | translate}}</h6>
+                <div class="button-group">
+                  <button
+                  class="checkbox-btn"
+                    *ngFor="let option of Amenities"
+                    [ngClass]="{'active': isSelected(option.id)}"
+                    (click)="toggleSelection(option.id)">
+                    {{option.name}}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex gap-2">
+              <button class="ms-4 black_outline" type="button" (click)="SubmitFilterForm()">{{'findGym.Apply' | translate}}</button>
+              <button class="ms-4 black_outline" type="button" (click)="resetFilterForm()">{{'findGym.Reset' | translate}}</button>
+            </div>
+        </ng-container>
+
+        <div class="d-flex align-items-center justify-content-between mt-4 mt-md-0 flex-wrap gap-2" >
+          <button class="black_outline" (click)="ShowMap()">
+            <ng-container *ngIf="!showOnMap">{{'findGym.Map' | translate}} <i class="fa fa-map-o ms-2"></i></ng-container>
+            <ng-container *ngIf="showOnMap">{{'findGym.List' | translate}} <i class="fa fa-list ms-2"></i></ng-container>
+
+          </button>
+          <div ngbDropdown class="dropdown d-inline-block">
+            <button class="ms-4  black_outline" ngbDropdownToggle>{{'findGym.Sort by' | translate}}
+              <i class="fa fa-chevron-down ms-2"></i>
+            </button>
+            <div class="dropdown-menu text-small" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <button class="dropdown-item" ngbDropdownItem (click)="sortbyDistance()">
+                {{'findGym.Distance' | translate}}
+              </button>
+              <button class="dropdown-item"  ngbDropdownItem (click)="sortbyLastAdded()">
+                {{'findGym.Recently added' | translate}}
+              </button>
+              <button class="dropdown-item" (click)="sortbyPrice('ASC')" ngbDropdownItem>
+                {{'findGym.Price: low to high' | translate}}
+              </button>
+              <button class="dropdown-item" (click)="sortbyPrice('DESC')" ngbDropdownItem>
+                {{'findGym.Price: high to low' |  translate}}
+              </button>
+            </div>
+          </div>
+          <button class="black_outline" (click)="ToggleShowFilter()">{{'findGym.Filter' | translate}} <i class="fa fa-sliders ms-2"></i></button>
+        </div>
+        
+        
+      </div>
+
+      <div *ngIf="noAddress == true">
+        <div class="container" >
+          <div class="row">
+            <div class="col-md-12">
+              <div class="text-center">
+                <div class="not_found">
+                  <h3 class="mb-2">{{'No Data Found' | translate}}</h3>
+                  <br>
+                  <button type="button" class="mx-auto"  [routerLink]="['/home']" routerLinkActive="router-link-active"> {{'Back To Home' | translate}} </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ng-container *ngIf="showOnMap && gymList?.length > 0" >
+        <app-map-filter [locations]="gymList" [myLocation]="myLocation"></app-map-filter>
+      </ng-container>
+
+      <ng-container *ngIf="!showOnMap && gymList?.length > 0">
+      <div class="col-12 col-md-4 col-sm-6 mb-4" *ngFor="let item of gymList">
+        <div class="gym_item overflow-hidden" [routerLink]="['/gym',item?.id]">
+          <div class="image w-100">
+            <img [src]="environment.imgUrl + 'gyms/' + item.logo" class="w-100" height="250px" (error)="handleImgError($event)">
+          </div>
+          <div class="content p-4">
+            <p class="fw-normal c3"><i class="fa fa-map-marker me-2"></i>{{item?.distance|number:'1.1-1'}} KM</p>
+            <h5 class="title fw-bold mb-2">{{item.name}}</h5>
+            <p class="mb-0" [innerHTML]="item?.description.length > 200 ? item?.description.slice(0,200) + '...' : item?.description">
+            
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 text-center" >
+        <ngb-pagination class="mb-4" 
+        [collectionSize]="count" 
+        [pageSize]="10"
+        [(page)]="page"
+        (pageChange)="onPageChange($event)"
+        aria-label="pagination" />
+      </div>
+      </ng-container>
+
+
+    </div>
+  </div>
+</section>
+<!--  -->

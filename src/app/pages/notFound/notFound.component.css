@@ -1,0 +1,31 @@
+
+section{
+  border-top: 1px solid rgb(246, 246, 246);
+  .not_found {
+    h1 {
+      font-size: 50;
+      font-weight: 500;
+    }
+    h3 {
+      font-size: 20px;
+      font-weight: 400;
+    }
+    p {
+      font-size: 18;
+      font-weight: 300;
+    }
+    .back_btn {
+      display: inline;
+      cursor: pointer;
+      color: var(--font-color-light);
+      position: relative;
+      text-decoration: underline 4px rgb(80, 223, 161);
+      line-height: 17pt;
+      text-underline-offset: var(--offset, 0.3em);
+      --offset: 0.22em;
+      transition: --offset 200ms ease 0s;
+      font-size: 18px;
+    }
+  }
+
+}

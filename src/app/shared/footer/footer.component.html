@@ -1,0 +1,73 @@
+<section class="footer">
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-lg-6 col-md-6">
+          <div class="footer_links text-start">
+            <ul aria-label="Find a Course" class="d-flex flex-wrap" >
+              <li class="col-12 col-lg-6 col-md-6" *ngFor="let city of cities">
+                <a class="footer_link text-white" [routerLink]="['/find-gym']" [queryParams]="{selectedCity: city.id}">
+                  <span>
+                    {{'Gyms in ' | translate}} {{city.name}}
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-12 col-lg-3 col-md-6">
+          <div class="footer_links text-start">
+            <ul aria-label="Find a Course">
+              <li>
+                <a class="footer_link text-white" [routerLink]="['/page' ,68]" routerLinkActive="router-link-active" ><span>{{'footer.Terms & Conditions' | translate}}</span></a>
+              </li>
+              <li>
+                <a class="footer_link text-white" [routerLink]="['/page' ,67]"><span>{{'footer.Privacy Policy' | translate}}</span></a>
+              </li>
+              <li>
+                <a class="footer_link text-white" [routerLink]="['/contact-us']"><span>{{'footer.Contact Us' | translate}}</span></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-3 col-md-6">
+          <div class="text-start mb-5">
+            <div class="logo">
+              <a rel="home" routerLink="/">
+                <img src="assets/images/image (1).png" height="150" alt="logo" />
+              </a>
+            </div>
+            <div class="footer_social d-flex justify-content-start mb-3">
+              <a [href]="contactInfo?.facebook" target="_blank" aria-label="facebook" *ngIf="contactInfo?.facebook">
+                <img src="assets/images/icons/facebook-square.png" alt="social-logo">
+              </a>
+              <a [href]="contactInfo?.twitter" target="_blank" aria-label="twitter" *ngIf="contactInfo?.twitter">
+                <img src="assets/images/icons/twitter-square.png" alt="social-logo">
+              </a>
+              <a [href]="contactInfo?.instagram" target="_blank" aria-label="instagram" *ngIf="contactInfo?.instagram">
+                <img src="assets/images/icons/instagram.png" alt="social-logo">
+              </a>
+              <a [href]="contactInfo?.linkedin" target="_blank" aria-label="linkedin" *ngIf="contactInfo?.linkedin">
+                <img src="assets/images/icons/linkedin.png" alt="social-logo">
+              </a>
+              <a [href]="contactInfo?.tiktok" target="_blank" aria-label="tiktok" *ngIf="contactInfo?.tiktok">
+                <img src="assets/images/icons/tiktok-square-icon.png" width="30" height="30" alt="social-logo">
+              </a>
+              <a [href]="contactInfo?.youtube" target="_blank" aria-label="youtube" *ngIf="contactInfo?.youtube">
+                <img src="assets/images/icons/youtube-square.png" alt="social-logo">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</section>
+<div class="subFooter">
+  <div class="container">
+    <div class="d-flex justify-content-center align-items-center">
+      <div class="CopyrightText text-white">© 2024 All Rights Reserved, Powerd by <a target="_blank" class="c2 text-decoration-none" href="https://it-plus.co" style="font-family: chandstate;   color:#E7512D !important;">IT PLUS</a></div>
+    </div>
+  </div>
+</div>

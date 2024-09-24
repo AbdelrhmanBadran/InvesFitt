@@ -1,111 +1,168 @@
-import { Component, ElementRef, Renderer2 } from '@angular/core';
-import { CommonService } from '../../shared/services/common.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserService } from '../../shared/services/user.service';
-import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
-import { TranslateService } from '@ngx-translate/core';
-import { environment } from '../../../environments/environment.development';
-import { getMessaging, getToken } from 'firebase/messaging';
-
+import { BreadcrumbLink } from './../../interfaces/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+import { AuthService } from '../../services/auth.service';
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { CommonModule } from '@angular/common';
+import { BreadcrumbComponent } from '../../shared/breadcrumb/breadcrumb.component';
+import { LocalstorageService } from '../../services/localstorage.service';
+import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AngularFireModule } from '@angular/fire/compat';
+import { getRedirectResult } from 'firebase/auth';
+import { Auth } from '@angular/fire/auth';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    RouterModule,
+    TranslateModule,
+    NgbAlertModule,
+    CommonModule,
+    BreadcrumbComponent,
+    AngularFireAuthModule,
+    AngularFireModule
+  ],
+  styleUrls: ['./login.component.css'],
 })
-export class LoginComponent {
-
-  hide : boolean = true;
+export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
-  passwordError: boolean = false;
-  emailError: boolean = false;
-  deviceTokenId: string = '';
-  
+  notValidUser: boolean = false;
+  isUserValid: boolean = false;
+  showLoader:boolean = false
+  BreadcrumbLinks: BreadcrumbLink[] = [
+    { label:'Home', route:'/home'},
+    { label:'Log In', route:''},
+  ];
+  notValidSocialUser: boolean;
+
+  private auth  = inject(Auth);
+
+
   constructor(
-    public common:CommonService,
-    private form:FormBuilder,
-    private user:UserService,
-    private router:Router,
-    private message: MessageService,
-    private translateService: TranslateService,
-    private render:Renderer2,
-    private el:ElementRef,
-  ){
-
+    private formbuilder: FormBuilder,
+    public authService: AuthService,
+    private router: Router,
+    private localStorage: LocalstorageService,
+  ) {
+  }
+  ngOnInit() {
+    this.InitloginForm();
   }
 
-  ngOnInit(): void {
-    this.createFrom();
-  }
-  ngAfterViewInit(): void {
-    const passwordInput = this.el.nativeElement.querySelector('.password-input');    
-    if(this.common.lang_code == 'ar' )
-    {
-      this.render.addClass(passwordInput, 'rtl');
-    }
-  }
-  createFrom():void
-  {
-    this.loginForm = this.form.group({
-      "email":[localStorage.getItem('email') , [Validators.required , Validators.pattern(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)]],
-      "password": ['' , Validators.required],
-    })
+  InitloginForm() {
+    this.loginForm = this.formbuilder.group({
+      email: ['' , [Validators.required, Validators.email]],
+      password: ['',[Validators.required , Validators.minLength(6)]],
+    });
   }
 
-  login(data:FormGroup):void
-  { 
-    if (data.valid) {
-      // this.requestPermission();
-      this.user.login(data.value).subscribe({
-        next:res =>{
+  SubmitLogin() {
+    if (this.loginForm.valid) {
+      this.showLoader = true
+      this.authService.LogIn(this.loginForm.value).subscribe({
+        next: (res) => {
           console.log(res);
-          if(res.success){
-            this.passwordError = false;
-            this.emailError = false
-            let data = JSON.stringify(res.data)
-            localStorage.setItem('userData' , data)
-            localStorage.setItem('token' , res.data.code)
-            this.user.userdata.next('logged In')
-            localStorage.setItem('profile-mode' , 'user')
-            localStorage.setItem('deviceTokenId' , this.deviceTokenId);
-            localStorage.setItem('isVisitor' , 'false');
-            this.router.navigate(['/home'])
-          }else if(res.error == 'Incorrect_Password'){
-            this.passwordError = true;
-            this.emailError = false
-            this.translateService.get('Password is incorrect' , 'Error').subscribe((translations: any) => {
-              this.message.add({ severity: 'error', summary: 'Error', detail: translations });
-          });
-
-          }else if(res.error == 'Email_Not_Exist'){
-            this.passwordError = false;
-            this.emailError = true
-            this.translateService.get('Email is not exist').subscribe((translations: any) => {
-              this.message.add({ severity: 'error', summary: 'Error', detail: translations });
-          });
-          }else{
-            this.passwordError = false;
-            this.emailError = false
+          if (res.status !== 200 ) {
+            this.notValidUser = true;
+          } else {
+            this.authService.IsAuthinticated = true;
+            this.localStorage.setItem('currentUser', JSON.stringify(res.User_data));
+            this.localStorage.setItem('token', res.User_data?.authentication_code);
+            this.localStorage.setItem('IsAuthinticated', JSON.stringify(this.authService.IsAuthinticated));
+            this.authService.setUserValidity(true)
+            this.router.navigateByUrl('/home');
           }
+          this.showLoader = false
         },
-        error:err =>{
+      error: (err) => {
           console.log(err);
-        }
+          this.notValidUser = true;
+          this.showLoader = false
+        },
       })
+    }else{
+      Object.keys(this.loginForm.controls).forEach(key => {
+        this.loginForm.controls[key].markAsTouched();
+      })
+      this.notValidUser = true;
+      this.showLoader = false
+    }
+    
+
+  }
+  closeAlert() {
+    this.notValidUser = false;
+  }
+
+  async signinWithSocialApp(type:string) {
+    try {
+      let userCredential;
+      if(type == 'google'){
+        userCredential = await this.authService.signInwithGoogle();
+      }else if(type == 'facebook'){
+        userCredential = await this.authService.signInwithfaceBook();
+      }else if(type == 'apple'){
+        userCredential = await this.authService.signInwithApple();
+      }
+      console.log(userCredential);
+
+      const user = userCredential.user;
+      const _tokenResponse = userCredential._tokenResponse;
+      // console.log(user);
+      // console.log(_tokenResponse);
+      
+      if (_tokenResponse || user) {
+        // You can now access the user's data
+        // console.log('User ID:', _tokenResponse.localId);
+        console.log('User Name:', _tokenResponse.displayName);
+        console.log('User Email:', _tokenResponse.email , user?.providerData[0]?.email);
+        console.log('User Email:', user.email);
+        // console.log('User Photo URL:', _tokenResponse.photoURL);
+        let userData={
+          email :  _tokenResponse.email ?? user.email,
+          displayName: user.displayName ?? _tokenResponse.displayName,
+          uid: type== 'apple' ?  _tokenResponse.localId : user.uid
+        };
+        this.loginWithSocial(userData)
+      }
+    } catch (error) {
+      console.error(`Error signing in with ${type}:`, error);
     }
   }
 
-  requestPermission(){
-    const message = getMessaging();
-    getToken(message , {vapidKey:environment.firebase.vpaidKey}).then(
-      (currentToken)=>{
-        if(currentToken){
-          console.log(currentToken);
-          this.deviceTokenId = currentToken
+  loginWithSocial(user:any)
+  {
+    this.showLoader = true
+    let data = {
+      token:user.uid,
+      email:user.email == null ? '' : user.email,
+    }
+    this.authService.LoginWithSocials(data).subscribe({
+      next: (res:any) => {
+        console.log(res);
+        if (res.status ==200 ) {
+          this.notValidSocialUser = false
+          this.authService.IsAuthinticated = true;
+          this.localStorage.setItem('currentUser', JSON.stringify(res.data));
+          this.localStorage.setItem('token', res.data?.authentication_code);
+          this.localStorage.setItem('IsAuthinticated', JSON.stringify(this.authService.IsAuthinticated));
+          this.authService.setUserValidity(true)
+          this.router.navigateByUrl('/home');
         }else{
-          console.log('no token');
+          this.notValidSocialUser = true
         }
-      }
-    )
+        this.showLoader = false
+      },
+      error: (err) => {
+        console.log(err);
+        this.showLoader = false
+      },
+    });
   }
+
+
 }

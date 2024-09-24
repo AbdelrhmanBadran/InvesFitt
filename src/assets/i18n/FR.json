@@ -1,0 +1,14 @@
+{
+  "LoginPage":{
+    "Email":"Adresse e-mail",
+    "password":"Mot de passe",
+    "login":"Connexion",
+    "loginMsg":"Connectez-vous à votre compte",
+    "register":"S'inscrire",
+    "forget":"Mot de passe oublié",
+    "Dont_have_account":"Vous n'avez pas de compte ?"
+  },
+  "HomePage":{
+    "Learn_language":"Apprendre une langue. Ouvrez votre monde."
+  }
+}

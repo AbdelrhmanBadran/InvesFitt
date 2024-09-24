@@ -3,7 +3,7 @@ import { CommonEngine } from '@angular/ssr';
 import express from 'express';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
-import AppServerModule from './src/main.server';
+import bootstrap from './src/main.server';
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
@@ -11,22 +11,14 @@ export function app(): express.Express {
   const serverDistFolder = dirname(fileURLToPath(import.meta.url));
   const browserDistFolder = resolve(serverDistFolder, '../browser');
   const indexHtml = join(serverDistFolder, 'index.server.html');
-  const path = require('path');
+
   const commonEngine = new CommonEngine();
 
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
-  
-  // Serve the static files from the "admin-area" directory
-  server.use('/admin-area', express.static(path.join(__dirname, '../../../', 'admin-area')));
-  // Then, catch all routes for /admin-area and serve the index.html file
-  server.get('/admin-area/*', (req, res) => {
-    res.sendFile(path.join(__dirname,'../../../', 'admin-area', 'index.html'));
-  });
-  
   // Example Express Rest API endpoints
-  server.get('/api/**', (req, res) => { });
+  // server.get('/api/**', (req, res) => { });
   // Serve static files from /browser
   server.get('*.*', express.static(browserDistFolder, {
     maxAge: '1y'
@@ -38,7 +30,7 @@ export function app(): express.Express {
 
     commonEngine
       .render({
-        bootstrap: AppServerModule,
+        bootstrap,
         documentFilePath: indexHtml,
         url: `${protocol}://${headers.host}${originalUrl}`,
         publicPath: browserDistFolder,
@@ -47,7 +39,6 @@ export function app(): express.Express {
       .then((html) => res.send(html))
       .catch((err) => next(err));
   });
-
 
   return server;
 }

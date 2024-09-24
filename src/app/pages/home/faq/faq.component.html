@@ -1,0 +1,31 @@
+<section class="py-3 py-md-5" *ngIf="faq?.length > 0">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-12 col-xl-11">
+            <div class="sec_title text-center mb-5">
+              <h1 class="mb-3 text-black fw-bold ">{{'general.FAQS' | translate}}</h1>
+            </div>
+            <div ngbAccordion [closeOthers]="true">
+              <div ngbAccordionItem *ngFor="let question of faq">
+                <h2 ngbAccordionHeader>
+                  <button ngbAccordionButton>
+                    <span class="fw-bold fs-5 faq_title">{{question.question}}</span>
+                  </button>
+                </h2>
+                <div ngbAccordionCollapse>
+                  <div ngbAccordionBody>
+                    <ng-template>
+                      {{question.answer}}
+                    </ng-template>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,135 @@
+<header class="header">
+  <nav class="navbar navbar-expand-lg navbar-light p-0">
+    <div class="container">
+      <a class="navbar-brand" [routerLink]="['/home']">
+        <img src="assets/images/download.png" height="50" alt="" />
+      </a>
+      <div class="d-lg-none navbar-burger w-auto px-0 rounded-pill" type="button" (click)="ToggleSideMenu()">
+        <svg width="51" height="51" viewbox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="56" height="56" rx="28" fill="currentColor"></rect>
+          <path d="M37 32H19M37 24H19" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          </path>
+        </svg>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav d-flex align-items-center">
+          <div ngbDropdown class="dropdown d-inline-block">
+            <a id="dropdownBasic1" class="text-decoration-none text-white cursor-pointer" ngbDropdownToggle>
+              <i class="fa fa-globe text-white" aria-hidden="true"></i>
+              {{ selectedLanguage }}
+            </a>
+            <div class="dropdown-menu text-small" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <button class="dropdown-item" (click)="selectLanguage('English')" ngbDropdownItem>
+                English
+              </button>
+              <button class="dropdown-item" (click)="selectLanguage('عربي')" ngbDropdownItem>
+                عربي
+              </button>
+            </div>
+          </div>
+
+          <li class="nav-item ms-4" *ngIf="isUserValid == false">
+            <a class="nav-link py-0 white_outline rounded-3" [routerLink]="['/login']">{{'Log In' | translate}}</a>
+          </li>
+          <li class="nav-item ms-4" *ngIf="isUserValid == false">
+            <a class="nav-link py-0 white_outline rounded-3" [routerLink]="['/signup']">{{'Register'| translate}}</a>
+          </li>
+        </ul>
+        <div ngbDropdown class="dropdown d-inline-block user_dropdown ms-3 cursor-pointer" *ngIf="isUserValid == true">
+          <a id="dropdownBasic1" class="text-decoration-none text-white" ngbDropdownToggle>
+            <img [src]="emviroment.imgUrl+ 'users/'+ userData?.img" (error)="handleImageError($event)" class="img-responsive user_image" alt="" />
+            <span class="ms-3">{{userData?.first_name + ' ' + userData?.last_name }}</span>
+          </a>
+          <div class="dropdown-menu text-small" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button class="dropdown-item" [routerLink]="['/supsscriptions']" ngbDropdownItem>
+              <i class="fa fa-list"></i> {{'general.Subscriptions' | translate}}
+            </button>
+            <button class="dropdown-item" [routerLink]="['/points']" ngbDropdownItem>
+              <i class="fa fa-money"></i> {{'general.Points'| translate}}
+            </button>
+            <button class="dropdown-item" [routerLink]="['/edit-profile']" ngbDropdownItem>
+              <i class="fa fa-edit"></i> {{'general.EditProfile' | translate}}
+            </button>
+            <button class="dropdown-item" ngbDropdownItem (click)="LogOut()">
+              <i class="fa fa-sign-out"></i> {{'general.LogOut' | translate}}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="navbar-menu mw-xs" #navMenue style="z-index: 9999">
+    <div class="navbar-close navbar-backdrop position-fixed top-0 start-0 end-0 bottom-0 bg-dark"
+      (click)="CloseSideMenu()" style="opacity: 75%"></div>
+    <nav class="position-relative h-100 w-100 d-flex flex-column py-8 px-8 bg-black overflow-auto">
+      <div class="top_sidemenue d-flex align-items-center p-4 justify-content-between">
+          <div class="user_data">
+            <div ngbDropdown class="dropdown d-inline-block user_dropdown cursor-pointer" *ngIf="isUserValid">
+              <a id="dropdownBasic1" class="text-decoration-none text-white" ngbDropdownToggle>
+                <img [src]="emviroment.imgUrl+ 'users/'+ userData?.img" (error)="handleImageError($event)" class="img-responsive user_image" alt="" />
+                <span class="ms-3">{{userData?.first_name + ' ' + userData?.last_name }}</span>
+              </a>
+              <div class="dropdown-menu text-small" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                <button class="dropdown-item" [routerLink]="['/supsscriptions']" ngbDropdownItem>
+                  <i class="fa fa-list"></i> {{'general.Subscriptions' | translate}}
+                </button>
+                <button class="dropdown-item" [routerLink]="['/points']" ngbDropdownItem>
+                  <i class="fa fa-money"></i> {{'general.Points' | translate}}
+                </button>
+                <button class="dropdown-item" [routerLink]="['/edit-profile']" ngbDropdownItem>
+                  <i class="fa fa-edit"></i> {{'general.EditProfile' | translate}}
+                </button>
+                <button class="dropdown-item" ngbDropdownItem (click)="LogOut()">
+                  <i class="fa fa-sign-out"></i> {{'general.LogOut' | translate}}
+                </button>
+              </div>
+            </div>
+          </div>
+        <span class="navbar-close" (click)="CloseSideMenu()">
+          <svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 18L18 6M6 6L18 18" stroke="#fff" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </span>
+      </div>
+      <div class="py-2 sidenav_items">
+        <ul class="nav flex-column">
+          <li class="nav-item" *ngIf="!isUserValid">
+            <span class="nav-link py-0 white_outline py-2 rounded-3 cursor-pointer" (click)="NavigatTo('login') ; CloseSideMenu();">{{'Log In' | translate}}</span>
+          </li>
+          <li class="nav-item" *ngIf="!isUserValid">
+            <span class="nav-link py-0 white_outline py-2 rounded-3 cursor-pointer" (click)="NavigatTo('signup') ; CloseSideMenu();">{{'Register' | translate}}</span>
+          </li>
+          <li class="nav-item" *ngIf="isUserValid">
+            <span class="nav-link py-0 white_outline py-2 rounded-3 cursor-pointer" (click)="NavigatTo('supsscriptions') ; CloseSideMenu();">{{'general.Subscriptions' | translate}}</span>
+          </li>
+          <li class="nav-item" *ngIf="isUserValid">
+            <span class="nav-link py-0 white_outline py-2 rounded-3 cursor-pointer" (click)="NavigatTo('points') ; CloseSideMenu();">{{'Points' | translate}}</span>
+          </li>
+          <li class="nav-item" *ngIf="isUserValid">
+            <span class="nav-link py-0 white_outline py-2 rounded-3 cursor-pointer" [routerLink]="['/edit-profile']" (click)="NavigatTo('edit-profile') ; CloseSideMenu();">{{'general.EditProfile' | translate}}</span>
+          </li>
+          <li class="nav-item" *ngIf="isUserValid">
+            <span class="nav-link py-0 white_outline py-2 rounded-3 cursor-pointer" (click)="LogOut() ; CloseSideMenu();">{{'general.LogOut' | translate}}</span>
+          </li>
+        </ul>
+      </div>
+      <div class="language">
+        <div ngbDropdown class="dropdown d-inline-block w-100">
+          <a id="dropdownBasic1" class="text-decoration-none text-white" ngbDropdownToggle>
+            <i class="fa fa-globe text-white" aria-hidden="true"></i>
+            {{ selectedLanguage }}
+          </a>
+          <div class="dropdown-menu text-small w-100" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button class="dropdown-item" (click)="selectLanguage('English') ; CloseSideMenu();" ngbDropdownItem>
+              English
+            </button>
+            <button class="dropdown-item" (click)="selectLanguage('عربي') ; CloseSideMenu();" ngbDropdownItem>
+              عربي
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>

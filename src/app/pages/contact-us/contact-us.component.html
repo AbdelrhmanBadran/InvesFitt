@@ -1,0 +1,109 @@
+<div class="topPageSpace"></div>
+
+<app-breadcrumb [links]="BreadcrumbLinks" currentTitle="Contact Us"></app-breadcrumb>
+
+<section class="position-relative py-5 overflow-hidden">
+  <div class="container position-relative mx-auto">
+    <div class="row align-items-center mb-5">
+      <div class="col-12 col-md-10 col-lg-8 m-auto">
+        <div class="contact_form bg-white rounded text-center">
+          <form [formGroup]="ContactForm" (ngSubmit)="SubmitContactForm()">
+            <h3 class="fw-bold mb-5">{{'Contact Us' | translate}}</h3>
+            <div class="row">
+              <div class="col-12">
+                <input class="form-control mb-3 rounded" type="text" formControlName="name" placeholder="{{'SignUpPage.Name' | translate}}" />
+                <span class="text-start errorMsg" *ngIf="ContactForm.get('name')?.invalid && ContactForm.get('name')?.touched">
+                  {{'LoginPage.ValidationMessageName'|translate}}
+                </span>
+              </div>
+              <div class="col-12 col-md-6">
+                <input class="form-control mb-3 rounded" type="email" formControlName="email"
+                  [placeholder]="'LoginPage.Email' | translate" />
+                  <span class="text-start errorMsg" *ngIf="ContactForm.get('email')?.invalid && ContactForm.get('email')?.touched">
+                    {{'LoginPage.ValidationMessageEmail'|translate}}
+                  </span>
+                </div>
+              <div class="col-12 col-md-6">
+                <input class="form-control mb-3 rounded" type="tel" formControlName="phone" [placeholder]="'SignUpPage.phone' | translate" />
+                <span class="text-start errorMsg" *ngIf="ContactForm.get('phone')?.invalid && ContactForm.get('phone')?.touched">
+                  {{'LoginPage.ValidationMessagePhone'|translate}}
+                </span>
+              </div>
+              <div class="col-12">
+                <select class="form-select mb-3 rounded" type="tel" formControlName="found_us_by">
+                  <option value="" disabled>{{'How did you find us' | translate}}</option>
+                  <option value="Youtube">{{'On Youtube' | translate}}</option>
+                  <option value="Facebook">{{'From Facebook' | translate}}</option>
+                  <option value="friend">{{'From a friend'| translate}}</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <textarea name="Message" id="" class="form-control w-100 rounded mb-3" rows="10" [placeholder]="'SignUpPage.message' | translate"
+                  formControlName="message"></textarea>
+                  <span class="text-start errorMsg" *ngIf="ContactForm.get('message')?.invalid && ContactForm.get('message')?.touched">
+                    {{'LoginPage.ValidationMessageMessage'|translate}}
+                  </span>
+              </div>
+            </div>
+
+            <button class="w-100 rounded" type="submit">
+              {{ "Send" | translate }}
+            </button>
+          </form>
+        </div>
+        <div class="row mt-4 gy-2">
+          <div class="col-12 col-md-4">
+          <div class="info_item mb-4 rounded text-center">
+            <span class="image mb-4">
+              <i class="fa fa-envelope fs-5"></i>
+            </span>
+            <div class="content">
+              <h5 class="mb-2 fw-bold">{{'Send Email' | translate}}</h5>
+              <a class="mb-2" [href]="'mailto:' + contactInfo?.site_email">
+                {{contactInfo?.site_email}}
+              </a>
+            </div>
+          </div>
+          </div>
+          <div class="col-12 col-md-4">
+          <div class="info_item mb-4 rounded text-center">
+            <span class="image mb-4">
+              <i class="fa fa-phone fs-5"></i>
+            </span>
+            <div class="content">
+              <h5 class="mb-2 fw-bold">{{'Call Us' |  translate}}</h5>
+              <a class="mb-2" [href]="'tel:' + contactInfo?.phone">
+                {{contactInfo?.phone}}
+              </a>
+              <a class="mb-2" [href]="'tel:' + contactInfo?.other_phone">
+                {{contactInfo?.other_phone}}
+              </a>
+            </div>
+          </div>
+          </div>
+          <div class="col-12 col-md-4">
+          <div class="info_item mb-4 rounded text-center">
+            <span class="image mb-4">
+              <i class="fa fa-map-marker fs-5"></i>
+            </span>
+            <div class="content">
+              <h5 class="mb-2 fw-bold">{{'Address' | translate}}</h5>
+              <a class="mb-2" [href]="'https://www.google.com/maps?q=' + contactInfo?.latitude + ',' + contactInfo?.longitude" target="_blank">
+                <span *ngIf="lang == 'ar'">
+                  {{contactInfo?.address}}
+                </span>
+                <span *ngIf="lang == 'en'">
+                  {{contactInfo?.address_en}}
+                </span>
+              </a>
+            </div>
+          </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>

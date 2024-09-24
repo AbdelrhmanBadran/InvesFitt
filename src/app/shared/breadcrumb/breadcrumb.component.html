@@ -1,0 +1,16 @@
+
+
+<div class="breadcrumb_sec py-4">
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+      <li *ngFor="let link of links; let i = index" class="breadcrumb-item d-flex">
+        <a class="text-decoration-none text-black" *ngIf="link.route" [routerLink]="link.route" [queryParams]="link.route == '/find-gym' ? { searchValue: link?.queryParams } : null">{{ link.label | translate}}</a>
+        <span class="text-muted" *ngIf="!link.route">{{ link.label | translate }}</span>
+      </li>
+    </ol>
+  </nav>
+  <h3 class="title mt-3 mb-0 fw-bold" *ngIf="currentTitle">{{ currentTitle |translate}}</h3>
+</div>
+</div>
+<!-- ['/find-gym'], { queryParams: {searchValue: queryParams}} -->

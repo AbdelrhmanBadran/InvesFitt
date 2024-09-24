@@ -1,0 +1,126 @@
+<div class="topPageSpace"></div>
+
+<app-breadcrumb [links]="BreadcrumbLinks" currentTitle="Edit Profile"></app-breadcrumb>
+
+
+<section>
+  <div class="container">
+    <div class="row gutters">
+      <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+        <div class="card">
+          <div class="card-body p-4">
+            <div class="account-settings mb-4">
+              <div class="user-profile">
+                <label for="userImg" class="user-avatar mb-4 cursor-pointer">
+                  <img [src]="imgUrl" alt="User image" (error)="handleImageError($event)">
+                  <input type="file" class="d-none" id="userImg" (change)="onFileSelected($event)" >
+                </label>
+                <h5 class="user-name mb-2">{{userData?.first_name + ' ' + userData?.last_name}}</h5>
+                <h6 class="user-email">{{userData?.email}}</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+        <div class="card h-100">
+          <div class="card-body p-4">
+            <form [formGroup]="EditProfileForm" (ngSubmit)="SubmitEditProfile()">
+            <div class="row">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <h4 class="mb-3 mt-3">{{'editProfile.PersonalDetails'| translate}}</h4>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                <div class="form-group mb-2">
+                  <label class="mb-1">{{'editProfile.FirstName' | translate}}</label>
+                  <input class="form-control" type="text" formControlName="first_name" >
+                  <span *ngIf=" EditProfileForm.get('first_name')?.touched&& EditProfileForm.get('first_name')?.getError('required')" class="errorMsg">
+                    {{'editProfile.firstNameError'|translate}}
+                  </span>
+
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                <div class="form-group">
+                  <label class="mb-1">{{'editProfile.LastName' | translate}}</label>
+                  <input class="form-control" type="text" formControlName="last_name" >
+                  <span *ngIf=" EditProfileForm.get('last_name')?.touched&& EditProfileForm.get('last_name')?.getError('required')" class="errorMsg">
+                    {{'editProfile.lastNameError'|translate}}
+                  </span>
+
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12  mb-3">
+                <div class="form-group">
+                  <label class="mb-1">{{'editProfile.Email' | translate}}</label>
+                  <input class="form-control" type="email" formControlName="email" >
+                  <span *ngIf=" EditProfileForm.get('email')?.touched && (EditProfileForm.get('email')?.getError('required') || EditProfileForm.get('email')?.getError('email'))" class="errorMsg">
+                    {{'editProfile.EmailError'|translate}}
+                  </span>
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                <div class="form-group">
+                  <label class="mb-1">{{'editProfile.Phone' | translate}}</label>
+                  <input class="form-control" type="tel" formControlName="mobile" >
+                  <span *ngIf=" EditProfileForm.get('mobile')?.touched&& EditProfileForm.get('mobile')?.getError('required')" class="errorMsg">
+                    {{'editProfile.mobileError'|translate}}
+                  </span>
+                  <span *ngIf=" EditProfileForm.get('mobile')?.touched&& EditProfileForm.get('mobile')?.getError('minLength')" class="errorMsg">
+                    {{'editProfile.mobileError'|translate}}
+                  </span>
+
+                </div>
+              </div>
+
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <h4 class="mb-3 mt-3">{{'editProfile.ChangePassword' | translate}}</h4>
+              </div>
+
+
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+                <div class="form-group">
+                  <label class="mb-1">{{'editProfile.OldPassword' | translate}}</label>
+                  <input class="form-control" type="password" formControlName="old_password" >
+                  <span *ngIf="(EditProfileForm.get('old_password')?.value == '' && EditProfileForm.get('new_password')?.value !== '')" class="errorMsg">
+                    {{'editProfile.oldPasswordError'|translate}}
+                  </span>
+
+
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                <div class="form-group">
+                  <label class="mb-1">{{'editProfile.NewPassword' | translate}}</label>
+                  <input class="form-control" type="password" formControlName="new_password" >
+                  <span *ngIf="(EditProfileForm.get('new_password')?.value == '' && EditProfileForm.get('old_password')?.value !== '')" class="errorMsg">
+                    {{'editProfile.newPasswordError'|translate}}
+                  </span>
+
+                </div>
+
+              </div>
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                <div class="form-group">
+                  <label class="mb-1">{{'editProfile.ConfirmPassword'| translate}}</label>
+                  <input class="form-control" type="password" formControlName="confirm_password" >
+                  <span *ngIf=" EditProfileForm.get('confirm_password')?.touched && EditProfileForm.errors?.['passwordMatch']" class="errorMsg">
+                    {{'editProfile.PasswordNotMatch'|translate}}
+                  </span>
+
+                </div>
+              </div>
+
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="text-right mt-3">
+                  <button type="submit" id="submit" name="submit" class="w-100" >{{'editProfile.Update' | translate}}</button>
+                </div>
+              </div>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,2 +1,16 @@
-<router-outlet></router-outlet>
 
+
+<app-header></app-header>
+<router-outlet />
+<app-footer></app-footer>
+
+<div class="overlay-background position-fixed" *ngIf="showLoader">
+  <div class="loader">
+  </div>
+</div>
+
+<div class="scrolltop" appScrollTop>
+  <div class="d-flex align-items-center justify-content-center w-100 h-100">
+    <i class="fa fa-arrow-up"></i>
+  </div>
+</div>

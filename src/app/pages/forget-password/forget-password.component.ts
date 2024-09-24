@@ -1,61 +1,99 @@
-import { Component } from '@angular/core';
-import { CommonService } from '../../shared/services/common.service';
-import { Router } from '@angular/router';
-import { UserService } from '../../shared/services/user.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
-import { TranslateService } from '@ngx-translate/core';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { BreadcrumbComponent } from '../../shared/breadcrumb/breadcrumb.component';
+import { BreadcrumbLink } from '../../interfaces/common';
+import Swal from 'sweetalert2';
+import { AuthService } from '../../services/auth.service';
+import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-forget-password',
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    RouterModule,
+    TranslateModule,
+    CommonModule,
+    BreadcrumbComponent,
+    NgbAlert
+  ],
   templateUrl: './forget-password.component.html',
-  styleUrl: './forget-password.component.scss'
+  styleUrls: ['./forget-password.component.css'],
 })
-export class ForgetPasswordComponent {
-  
+export class ForgetPasswordComponent implements OnInit {
+  ForgetForm!: FormGroup;
+  BreadcrumbLinks: BreadcrumbLink[] = [
+    { label: 'Home', route: '/home' },
+    { label: 'general.Forget Password', route: '' },
+  ];
+  notValidUser:boolean = false
+  showLoader:boolean 
   constructor(
-    public common:CommonService,
-    private form:FormBuilder,
-    private user:UserService,
-    private router:Router,
-    private message: MessageService,
-    private translateService: TranslateService
-  ){
-
+    private formbuilder: FormBuilder,
+    private router: Router,
+    private authService: AuthService,
+    private lang: TranslateService,
+  ) {
+    this.InitForgetForm();
   }
 
-  ForgetForm:FormGroup = new FormGroup('');
+  ngOnInit() {}
 
-  ngOnInit(): void {
-    this.createFrom();
+  InitForgetForm() {
+    this.ForgetForm = this.formbuilder.group({
+      email: ['' , [Validators.required , Validators.email]],
+    });
   }
-  createFrom():void
+  closeAlert()
   {
-    this.ForgetForm = this.form.group({
-      email:[localStorage.getItem('email') , [Validators.required , Validators.pattern(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)]],
-    })
+    this.notValidUser = false
   }
 
-  forget(data:FormGroup):void
-  { 
-    if (data.valid) {
-      localStorage.setItem('ForgetEmail' , this.ForgetForm.value.email)
-      this.user.forgetPassword(data.value).subscribe({
-        next:res =>{
-          console.log(res);
-          if(res.success){
-            this.router.navigate(['/pages/auth/newPassowrd'])
-            this.message.add({ severity: 'success', summary: 'success', detail: 'check your email'});
-          }else{
-            console.log('cc');  
-            this.message.add({ severity: 'error', summary: 'Error', detail: 'email not exist' });
-          
-          }
-        },
-        error:err =>{
-          console.log(err);
+  SubmitForgetPassword() {
+
+    if (this.ForgetForm.valid) {
+      this.notValidUser = false
+      this.showLoader = true
+      this.authService.forgetPasword(this.ForgetForm.value).subscribe(
+        {
+          next: (res) => {
+            console.log(res);
+            if(res.data !== 'No account found with that email address.')
+            {
+              Swal.fire(
+                this.lang.instant('Success'),
+                this.lang.instant('Password reset link has been sent to your email'),
+                'success'
+              )
+            }else{
+              Swal.fire(
+                this.lang.instant('No account found with that email address.'),
+                'error'
+              )
+            }
+            this.showLoader = false
+          },
+          error: (err) => {
+            console.log(err);
+            Swal.fire(
+              this.lang.instant('something went wrong'),
+              'error'
+            )
+            this.showLoader = false
+          },
         }
-      })
+      )
+    }else
+    {
+      this.notValidUser = true
     }
   }
 }

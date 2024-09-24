@@ -1,0 +1,19 @@
+
+<div>
+    <form action="https://sadadqa.com/webpurchase" method="post" name="gosadad" target="_blank" #autoSubmitForm>
+        <input type="hidden" name="CALLBACK_URL" [value]="enrollData.callbBackURL">
+        <input type="hidden" name="EMAIL" [value]="enrollData.email">
+        <input type="hidden" name="MOBILE_NO" [value]="enrollData.mobile">
+        <input type="hidden" name="ORDER_ID" [value]="enrollData.orderId">
+        <input type="hidden" name="TXN_AMOUNT" [value]="enrollData.txnAmount">
+        <input type="hidden" name="WEBSITE" [value]="enrollData.website">
+        <input type="hidden" name="merchant_id" [value]="enrollData.merchantId">
+        <input type="hidden" name="txnDate" [value]="enrollData.txnDate">
+        <input type="hidden" name="signature" [value]="enrollData.signture">
+        <input type="hidden" name="productdetail[0][order_id]" [value]="enrollData.order_id_Production">
+        <input type="hidden" name="productdetail[0][amount]" [value]="enrollData.order_amount_Production">
+        <input type="hidden" name="productdetail[0][quantity]" [value]="enrollData.order_quantity_Production">
+        <!-- Add a submit button -->
+        <!-- <input type="submit" value="Submit"> -->
+    </form>
+</div>

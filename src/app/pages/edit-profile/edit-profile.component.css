@@ -1,0 +1,20 @@
+.account-settings {
+  .user-profile {
+    text-align: center;
+    .user-avatar {
+      img {
+        width: 100%;
+        aspect-ratio: 1;
+        border-radius: 10px;
+        object-fit: cover;
+      }
+    }
+
+    h6.user-email {
+      margin: 0;
+      font-weight: 400;
+      color: var(--font-color)
+    }
+  }
+
+}

@@ -1,0 +1,40 @@
+<div class="topPageSpace"></div>
+
+<section class="panner position-relative overflow-hidden">
+  <div class="hero-section d-flex flex-wrap ">
+    <div class="col-12 col-lg-6 content_data">
+      <div class="container mb-20 mb-lg-0">
+        <h1 class="fw-bold  lh-base mt-2 ">
+          {{'general.OneNetwork' | translate}}
+        </h1>
+        <p class="mb-4 ">
+          {{'general.homeHeader' | translate}}.
+        </p>
+        <form [formGroup]="SearchForm" (ngSubmit)="SubmitSearch()">
+          <div class="">
+            <div class="form-froup w-100 d-flex justify-content-center">
+              <input type="text" class="form-control" placeholder="{{'general.locationPlaceholder' | translate}}"
+                formControlName="SearchValue">
+                <button type="submit" >{{'general.FindGyms' | translate}}</button>
+              </div>
+          </div>
+        </form>
+        <div class="mt-2 text-end">
+          <span>{{'general.browseGyms'| translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-6 img-mobile position-relative">
+      <img class="w-100 img-fluid" style="object-fit: cover" src="../../../assets/images/panner-mobile.png" alt="" />
+      <img class="w-100 img-fluid position-absolute w-100 start-0" style="object-fit: cover;bottom:0;" src="../../../assets/images/hero-mask.88d47c4d.png" alt="wave" />
+    </div>
+    <div class="col-12 col-lg-6 img-panner d-lg-block d-none">
+      <img class="w-100 img-fluid" style="object-fit: cover" src="../../../assets/images/panner.png" alt="" />
+    </div>
+  </div>
+</section>
+
+
+<app-how-works></app-how-works>
+
+<app-faq></app-faq>

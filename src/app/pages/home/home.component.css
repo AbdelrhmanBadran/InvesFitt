@@ -1,0 +1,45 @@
+.panner{
+  padding: 0;
+ .content_data{
+  display: flex;
+  align-items: center;
+  padding: 70px 20px;
+  h1{
+    font-size: 55px;
+  }
+  p{
+    font-size: 25px;
+    font-weight: 400;
+  }
+ }
+}
+.hero-section{
+  flex-direction: row;
+}
+.img-mobile{
+  display: none;
+}
+
+@media screen and (min-width: 575px) and (max-width: 991px) {
+  .panner .content_data{
+    height: 100vh;
+    background-image: url(../../../assets/images/panner-mobile.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  h1 , p , span{
+    color: #fff;
+  }
+}
+@media screen and (max-width: 575px) {
+  .panner .content_data{
+    padding: 0 20px 20px 20px;
+  }
+  .hero-section{
+    flex-direction: column-reverse;
+  }
+  .img-mobile{
+    display: block;
+  }
+}

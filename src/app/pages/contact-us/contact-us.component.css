@@ -1,0 +1,29 @@
+.info_item {
+  height: 100%;
+  border: 1px solid var(--border-color);
+  padding: 30px 20px;
+  transition: all ease-in-out 200ms;
+  &:hover{
+    border-width: 2px;
+    .image{
+      border-width: 2px;
+    }
+  }
+  .image {
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-color);
+    margin: auto;
+  }
+  .content {
+    p , a{
+      font-size: 14px;
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+}

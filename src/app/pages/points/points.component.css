@@ -1,0 +1,16 @@
+.subscriptions {
+  .container {
+    background-color: #f7f7f7;
+    padding: 30px;
+    border-radius: 10px;
+  }
+  .sup_item {
+    background: #fff;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all ease-in-out 200ms;
+    &:hover {
+      box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.07);
+    }
+  }
+}
