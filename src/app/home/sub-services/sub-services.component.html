@@ -1,0 +1,45 @@
+<!-- <app-header></app-header> -->
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="breadcrumbb position-relative"  style="z-index: 12;">
+                <h2 class="position-relative" style="z-index: 12;">{{categoryName | translate}}</h2>
+                <img class="position-absolute top-0 start-0 w-100 h-100 " src="assets/images/orderBreadcrumb.png" alt="orderBreadcrumb">
+                <div class="position-relative" style="z-index: 12;">
+                    <a routerLink="/" class="main-breadcrumb text-white">{{'Main' | translate}}</a>
+                    <span class="mx-2">></span>
+                    <span>{{categoryName | translate}}</span>   
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7" *ngIf="loading">
+            <p-skeleton height="300px" styleClass="mb-2" />
+        </div>
+        <div class="col-md-7">
+            <div class="d-flex flex-column mt-5 gy-3" *ngIf="dataDone">
+                <a class="my-3" *ngFor="let sub of subServices" [routerLink]="['/facility/all' , sub?.id , sub?.ser_name]">
+                    <!-- {{sub.ser_name}} -->
+                    <div class="my-3 faciilty-container position-relative d-flex align-items-center">
+                        <div class="position-absolute bottom-0 start-0 p-3 d-flex justify-content-between align-items-center w-100" style="z-index: 12;">
+                            <span class="text-white">{{sub?.ser_name}}</span>
+                            <span class="text-white d-flex justify-content-center align-items-center" style="cursor: pointer;">
+                                <!-- <i class="fa-solid fa-location-dot me-1"></i> -->
+                                <!-- <span>{{(Facilty.distance - 0).toFixed(2)}} KM</span> -->
+                            </span>
+                        </div>
+                        <img [src]="facilityImageBaseurl + sub?.img" class="position-absolute start-0 w-100 h-auto" [alt]="sub?.ser_name" (error)="common.handleImage($event)">
+                        <div class="layer position-absolute w-100 top-0 start-0 h-100 "></div>
+                    </div>
+                </a>
+            </div>
+            <div *ngIf="noData">
+                <p class="main-color fs-3 text-center">no content to show</p>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="pt-5 position-relative" style="height: 100px;" *ngIf="loading">
+        <ngx-spinner bdColor = "transparent" size = "default" color = "#80b127" type = "ball-clip-rotate" [fullScreen] = "false"></ngx-spinner>
+    </div> -->
+</div>
+
+<!-- <app-footer></app-footer> -->

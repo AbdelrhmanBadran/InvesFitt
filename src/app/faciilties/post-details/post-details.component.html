@@ -1,0 +1,412 @@
+<!-- <app-header></app-header> -->
+<section class="post-details position-relative my-3">
+    <!-- <div class="pop-up-image position-fixed bottom-0 start-0 w-0 h-100 justify-content-center align-items-center d-flex overflow-hidden" style="z-index: 123;" #popUpImageContainer (click)="popDown($event)">
+        <div class="position-absolute top-0 end-0 p-2 d-none" #closeBtn>
+            <i class="fa-solid fa-xmark text-danger"></i>
+        </div>
+        <img class="img-fluid" #popUpImageSrc/>
+    </div> -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7 mx-auto">
+                    <div class="post-image d-flex justify-content-center" *ngIf="postDetails?.type == 'post'" >
+                        <!-- <img  style="cursor: pointer;" (click)="showDialog1()" [src]="postImageBaseurl+postDetails?.attachment"  (error)="common.handleImage($event)" alt="post">
+                        <p-dialog [modal]="true" [(visible)]="visible1" [style]="{ width: '80%' , height:'80vh' }">
+                            <img [src]="postImageBaseurl+postDetails?.attachment"  (error)="common.handleImage($event)" alt="post" style="max-height: -webkit-fill-available;">
+                        </p-dialog> -->
+                        <p-image 
+                        [src]="postImageBaseurl+postDetails?.attachment" 
+                        (onImageError)="common.handleImage($event)"
+                        [preview]="true" 
+                        alt="Image">
+                            <ng-template pTemplate="indicator">
+                                <i class="pi pi-check"></i>
+                            </ng-template>
+                    </p-image>
+                    </div>
+                    <div class="post-image d-flex justify-content-center" *ngIf="postDetails?.type == 'image'">
+                        <!-- <img style="cursor: pointer;" (click)="showDialog2()" [src]="postImageBaseurl+postDetails?.attachment" (error)="common.handleImage($event)" alt="post" >
+                        <p-dialog [modal]="true" [(visible)]="visible2" [style]="{ width: '80%' , height:'80vh' }">
+                            <img [src]="postImageBaseurl+postDetails?.attachment"  (error)="common.handleImage($event)" alt="post" style="max-height: -webkit-fill-available;">
+                        </p-dialog> -->
+
+                        <p-image 
+                        [src]="postImageBaseurl+postDetails?.attachment" 
+                        (onImageError)="common.handleImage($event)"
+                        [preview]="true" 
+                        alt="Image">
+                            <ng-template pTemplate="indicator">
+                                <i class="pi pi-check"></i>
+                            </ng-template>
+                    </p-image>
+                    </div>
+                    <div class="post-video d-flex justify-content-center" *ngIf="postDetails?.type == 'video'">
+                        <video controls *ngIf="postDetails?.type == 'video'">
+                            <source [src]="postImageBaseurl+postDetails?.attachment "  type="video/mp4">
+                        </video>
+                    </div>
+                <div class="details p-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span>{{postDetails?.product_name}}</span>
+                        <span>{{postDetails?.date_added | date:'dd/MM/yyyy'}}</span>
+                    </div>
+                </div>
+                <div class="description p-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span [innerHTML]="postDetails?.description"></span>
+                    </div>
+                </div>
+                <div class="price p-2" *ngIf="postDetails?.avilability || postDetails?.price ">
+                    <div class="d-flex justify-content-between align-items-center" *ngIf="postDetails?.type == 'post'">
+                        <span style="color: #DB3022;">{{postDetails?.price | currency}}</span>
+                        <span *ngIf="postDetails?.avilability == 'Available'" style="color: #80B127;">{{'In Stock' | translate}}</span>
+                        <span *ngIf="postDetails?.avilability == 'Not Available'">{{'Out stock' | translate}}</span>
+                    </div>
+                </div>
+                <div class="post-reactions p-2">
+                    <mat-list>
+                        <mat-divider></mat-divider>
+                        <mat-list-item>
+                            <div class="d-flex justify-content-start align-items-center gap-4 reactions-count">
+                                <span class="d-flex align-items-center" style="color: #7A7A7A;">
+                                    <span class="mx-1">
+                                        {{noOfLikesPost}}
+                                    </span>
+                                    <span>
+                                        {{'likes' | translate}}
+                                    </span>
+                                </span>
+                                <span class="d-flex align-items-center" style="color: #7A7A7A;">
+                                    <span class="mx-1">
+                                        {{noOfComments}}
+                                    </span>
+                                    <span>
+                                        {{'comments' | translate}}
+                                    </span>
+                                </span>
+                                <span class="d-flex align-items-center" style="color: #7A7A7A;" *ngIf="postDetails?.type == 'video'">
+                                    <span class="mx-1">
+                                        0
+                                    </span>
+                                    <span>
+                                        {{'Views' | translate}}
+                                    </span>
+                                </span>
+                            </div>
+                        </mat-list-item>
+                        <mat-divider></mat-divider>
+                        <mat-list-item>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <button class="d-flex align-items-center" style="color: #7A7A7A;" (click)="likePost(postDetails?.id , postDetails?.type)">
+                                    <span>
+                                        <i class="fa-solid fa-thumbs-up mx-1" [class]=" postslike? 'text-like ' : ''"></i>
+                                    </span>
+                                    <span>
+                                        {{'like' | translate}}
+                                    </span>
+                                </button>
+                                <button class="d-flex align-items-center" style="color: #7A7A7A;" *ngIf="!myPostMode &&   postDetails?.type == 'post' && postDetails?.avilability =='Available'" (click)="addToCart(postDetails?.id , postDetails?.page_acc_id  )">
+                                    <span>
+                                        <i class="fa-solid fa-cart-shopping mx-1"></i>
+                                    </span>
+                                    <span>
+                                        {{'reserve' | translate}}
+                                    </span>
+                                </button>
+                                <button class="d-flex align-items-center" style="color: #7A7A7A;" *ngIf="  postDetails?.type == 'post'">
+                                    <span>
+                                        <i class="fa-solid fa-share mx-1"></i>
+                                    </span>
+                                    <span>
+                                        {{'share' | translate}}
+                                    </span>
+                                </button>
+                                <button mat-icon-button class="d-flex align-items-center" [matMenuTriggerFor]="menu" style="color: #7A7A7A;width: 60px;">
+                                    <i class="fa-solid fa-ellipsis mx-1"></i>
+                                    <span>{{'More' | translate}}</span>
+                                </button>
+                                <mat-menu #menu="matMenu" >
+                                    <button mat-menu-item *ngIf="!myPostMode">
+                                        <span>{{'Report' | translate}}</span>
+                                    </button>
+                                    <button mat-menu-item *ngIf="myPostMode" (click)="openDialog(postDetails?.type , postDetails , 'edit')">
+                                        <span>{{'edit' | translate}}</span>
+                                    </button>
+                                    <button mat-menu-item *ngIf="myPostMode">
+                                        <span style="color: #DB3022;">{{'delete' | translate}}</span>
+                                    </button>
+                                </mat-menu>
+                            </div>
+                        </mat-list-item>
+                        <mat-divider></mat-divider>
+                    </mat-list>
+                </div>
+                <div class="comment position-relative ">
+                    <div class="d-flex justify-content-start align-items-center gap-2 my-2" *ngFor="let comment of comments; let i = index; let last = last;">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-1">                                    
+                                    <div class="h-100 d-flex flex-column align-items-center">
+                                        <div class="comment-img rounded-circle overflow-hidden">
+                                            <img [src]="userCimmentImageUrl + commentUserImages[i]"  class="w-100" alt="comment-img" (error)="common.handleImage($event)">
+                                        </div>
+                                        <div class="v-line">
+                                            <!-- {{last}} -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-11">
+                                    <div class="comment-details">
+                                        <div class="d-flex justify-content-between align-items-center comment-container">
+                                            <span style="color: #7A7A7A;">
+                                                <span *ngIf="common.lang_code =='ar' && dateSacle[i] !== ''">
+                                                    منذ
+                                                </span>
+                                                <span>
+                                                    {{elapsedCommentTime[i]}}
+                                                </span>
+                                                <span *ngIf="common.lang_code =='ar' && dateSacle[i] !== ''">
+                                                    {{dateSacle[i]}}
+                                                </span>
+                                                <span *ngIf="common.lang_code =='en' && dateSacle[i] !== ''">
+                                                    {{dateSacle[i]}} {{'ago' |translate}}
+                                                </span>
+                                            </span>
+                                            <span>
+                                                <button mat-icon-button class="d-flex align-items-center" [matMenuTriggerFor]="menuComment" class="custom-button" style="color: #7A7A7A;">
+                                                    <i class="fa-solid fa-ellipsis"></i>
+                                                </button>
+                                                <mat-menu #menuComment="matMenu">
+                                                <button mat-menu-item (click)="showEditComment(EditCommentInput , userComment)" *ngIf="comment.user_id == userId">
+                                                    <span>{{'Edit' | translate}}</span>
+                                                </button>
+                                                <button mat-menu-item (click)="deleteComment(comment.id , i)" *ngIf="comment.user_id == userId">
+                                                    <span style="color: red;">{{'Delete' | translate}}</span>
+                                                </button>
+                                                <button mat-menu-item  *ngIf="comment.user_id !== userId">
+                                                    <span>{{'Report' | translate}}</span>
+                                                </button>
+                                                </mat-menu>
+                                            </span>
+                                        </div>
+                                        <div class="comment-desc">
+                                            <p [innerHTML]="comment.description">
+                                            </p>
+                                        </div>
+                                        <div class="comment-reactions d-flex gap-2">
+                                            <span>
+                                                {{noOfLikeComment[i]}}
+                                            </span>
+                                            <button class="d-flex align-items-center gap-2" style="color: #7A7A7A;" (click)="likeComment(comment.id ,i )">
+                                                <span>
+                                                    {{'like' | translate}}
+                                                </span>
+                                                <span>
+                                                    <i class="fa-solid fa-thumbs-up mx-1" [class]=" commentlike[i] ? 'text-like ' : ''"></i>
+                                                </span>
+                                            </button>
+                                            <span>
+                                                {{noOfRepliesComment[i]}}
+                                            </span>
+                                            <button class="d-flex align-items-center gap-2" style="color: #7A7A7A;" (click)="showReplyComment(userComment , EditCommentInput )">
+                                                <span>
+                                                    {{'Replies' | translate}}
+                                                </span>
+                                                <span>
+                                                    <i class="fa-regular fa-comment" style="color: #7A7A7A;"></i>
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="user-comment-input mt-2 h-auto overflow-hidden" #userComment>
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-1">
+                                                    <div class="h-100 d-flex flex-column align-items-center">
+                                                        <div class="comment-img rounded-circle overflow-hidden">
+                                                            <img [src]="userImageComment"  class="w-100" alt="comment-img" (error)="handleImage($event)">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-11" >
+                                                    <form (ngSubmit)="AddCommentOrReply(postDetails?.id , replyDescription , comment?.id , i)">
+                                                        <div class="comment-input d-flex align-items-center gap-1">
+                                                            <input type="text" class="form-control" placeholder="{{'Add reply' | translate}}" #replyDescription>
+                                                            <button class="rounded-3" style="background-color: #80B127;">
+                                                                <i class="fa-solid fa-paper-plane text-white"></i>
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="user-comment-input mt-2 h-0 overflow-hidden" #EditCommentInput>
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-1">
+                                                    <div class="h-100 d-flex flex-column align-items-center">
+                                                        <div class="comment-img rounded-circle overflow-hidden">
+                                                            <img [src]="userImageComment"  class="w-100" alt="comment-img" (error)="handleImage($event)">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-11" *ngIf="!visitorMode">
+                                                    <form (ngSubmit)="editComment(comment?.id , postDetails?.id ,editDescription , i)">
+                                                        <div class="comment-input d-flex align-items-center gap-1">
+                                                            <input type="text" class="form-control" placeholder="{{'Edit Comment' | translate}}" #editDescription>
+                                                            <button class="rounded-3" style="background-color: #80B127;">
+                                                                <i class="fa-solid fa-paper-plane text-white"></i>
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-center flex-column">
+                                        <p-accordion class="w-100"  *ngIf="replies[i].length > 0">
+                                            <p-accordionTab>
+                                                <ng-template pTemplate="header">
+                                                    <span class="font-bold white-space-nowrap show-comment"> {{'show' | translate}} {{replies[i].length}} {{'all replies' | translate}}</span>
+                                                </ng-template>
+                                                <div class="container-fluid mt-2" *ngFor="let reply of replies[i]; let rIndex = index">
+                                                    <div class="row">
+                                                        <div class="col-1" >
+                                                            <div class="h-100 d-flex flex-column align-items-center">
+                                                                <div class="comment-img rounded-circle overflow-hidden">
+                                                                    <img [src]="userCimmentImageUrl + repliesUserImages[i][rIndex]"  class="w-100" alt="comment-img" (error)="common.handleImage($event)">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-11">
+                                                            <div class="comment-details">
+                                                                <div class="d-flex justify-content-between align-items-center comment-container">
+                                                                    <span style="color: #7A7A7A;">
+                                                                        <span *ngIf="common.lang_code =='ar'  && dateSacleReply[i][rIndex] !== ''">
+                                                                            منذ
+                                                                        </span>
+                                                                        <span>
+                                                                            {{elapsedReplyTime[i][rIndex]}}
+                                                                        </span>
+                                                                        <span *ngIf="common.lang_code =='ar'  && dateSacleReply[i][rIndex] !== ''">
+                                                                            {{dateSacleReply[i][rIndex]}}
+                                                                        </span>
+                                                                        <span *ngIf="common.lang_code =='en'  && dateSacleReply[i][rIndex] !== ''">
+                                                                            {{dateSacleReply[i][rIndex]}} {{'ago' |translate}}
+                                                                        </span>
+                                                                    </span>
+                                                                    <span>
+                                                                        <button mat-icon-button class="d-flex align-items-center" [matMenuTriggerFor]="menuComment" class="custom-button" style="color: #7A7A7A;">
+                                                                            <i class="fa-solid fa-ellipsis"></i>
+                                                                        </button>
+                                                                        <mat-menu #menuComment="matMenu">
+                                                                        <button mat-menu-item>
+                                                                            <span>{{'Edit' | translate}}</span>
+                                                                        </button>
+                                                                        <button mat-menu-item>
+                                                                            <span style="color: red;">{{'Delete' | translate}}</span>
+                                                                        </button>
+                                                                        </mat-menu>
+                                                                    </span>
+                                                                </div>
+                                                                <div class="comment-desc">
+                                                                    <p [innerHTML]="reply.description">
+                                                                    </p>
+                                                                </div>
+                                                                <div class="comment-reactions d-flex gap-2">
+                                                                    <span>
+                                                                        {{noOfreplyComment[i][rIndex]}}
+                                                                    </span>
+                                                                    <button class="d-flex align-items-center gap-2" style="color: #7A7A7A;" (click)="likeReply(reply.id ,rIndex  , i)">
+                                                                        <span>
+                                                                            {{'like' | translate}}
+                                                                        </span>
+                                                                        <span>
+                                                                            <i class="fa-solid fa-thumbs-up mx-1" [class]=" replylike[i][rIndex] ? 'text-like ' : ''"></i>
+                                                                        </span>
+                                                                    </button>
+                                                                    <span>
+                                                                        {{reply.statistics.commentCount}}
+                                                                    </span>
+                                                                    <button class="d-flex align-items-center gap-2" style="color: #7A7A7A;" (click)="showReplyComment( userReply , EditCommentInput)">
+                                                                        <span>
+                                                                            {{'Replies' | translate}}
+                                                                        </span>
+                                                                        <span>
+                                                                            <i class="fa-regular fa-comment" style="color: #7A7A7A;"></i>
+                                                                        </span>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="user-comment-input mt-2 h-0 overflow-hidden" #userReply >
+                                                        <div class="container">
+                                                            <div class="row">
+                                                                <div class="col-1">
+                                                                    <div class="h-100 d-flex flex-column align-items-center">
+                                                                        <div class="comment-img rounded-circle overflow-hidden">
+                                                                            <img [src]="userImageComment"  class="w-100 " alt="comment-img" (error)="handleImage($event)">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-11" >
+                                                                    <form (ngSubmit)="AddCommentOrReply(postDetails?.id , replyInput , reply.id , i)">
+                                                                        <div class="comment-input d-flex align-items-center gap-1">
+                                                                            <input type="text" class="form-control" placeholder="{{'Add reply' | translate}}" #replyInput >
+                                                                            <button class="rounded-3" style="background-color: #80B127;">
+                                                                                <i class="fa-solid fa-paper-plane text-white"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </p-accordionTab>
+                                        </p-accordion>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="1000"
+                    (scrolled)="onScroll()" *ngIf="comments?.length">
+                    </div>
+                    <div class="position-relative w-100" style="height: 50px;" *ngIf="loading">
+                        <ngx-spinner bdColor = "#fff" size = "default" color = "#80b127" type = "ball-clip-rotate" [fullScreen] = "false"></ngx-spinner>
+                    </div>
+                    <div class="user-comment-input position-sticky bottom-0 start-0 w-100 -h-auto bg-white rounded-3 py-2" *ngIf="!visitorMode">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-1">
+                                    <div class="h-100 d-flex flex-column align-items-center">
+                                        <div class="comment-img rounded-circle overflow-hidden">
+                                            <img [src]="userImageComment"  class="w-100" alt="comment-img" (error)="handleImage($event)">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-11" >
+                                    <form (ngSubmit)="AddCommentOrReply(postDetails?.id ,commentDescription)">
+                                        <div class="comment-input d-flex align-items-center gap-1">
+                                            <input type="text" class="form-control"  placeholder="{{'Add comment' | translate}}" #commentDescription>
+                                            <button class="rounded-3" style="background-color: #80B127;" >
+                                                <i class="fa-solid fa-paper-plane text-white"></i>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- <app-footer></app-footer> -->
+<p-toast></p-toast>

@@ -1,0 +1,29 @@
+<div class="container h-100">
+    <div class="row h-100">
+        <div class="col-12">
+            <div class="icons d-flex justify-content-between px-2">
+                <a [routerLink]="'/'">
+                    <i class="fa-solid fa-house"></i>
+                </a>
+                <a [routerLink]="'/'">
+                    <i *ngIf="common.lang_code == 'ar'" class="fa-solid fa-arrow-left"></i>
+                    <i *ngIf="common.lang_code == 'en'" class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-12">               
+            <form [formGroup]="loginForm" (ngSubmit)="login(loginForm)">
+                <div class="d-flex justify-content-start align-items-start flex-column gap-3 main-login">
+                    <h1>{{'welcomeYou' | translate}} , </h1>
+                    <h3>{{'Please enter your email to check validty' | translate}}</h3>
+                    <label for="email">{{'email' | translate}}</label>
+                    <input type="email"  class="form-control" id="email" placeholder="{{'Enter your email' | translate}}" formControlName="email" [class]="(loginForm.dirty && loginForm.get('email')?.getError('required')) || (loginForm.dirty && loginForm.get('email')?.getError('pattern')) ? 'border border-danger border-2' : ''"
+                    >
+                    <span style="color:red" *ngIf="loginForm.dirty && loginForm.get('email')?.getError('required')">{{'Enter your email' |translate }}</span>
+                    <span style="color:red" *ngIf="loginForm.dirty && loginForm.get('email')?.getError('pattern')">{{'Enter valid email' | translate }}</span>
+                    <button class="btn bg-main text-white w-100 next-btn" >{{'next' | translate}}</button>
+                </div>
+            </form>            
+        </div>
+    </div>
+</div>

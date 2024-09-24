@@ -1,0 +1,104 @@
+.register{
+    padding: 0 60px;
+    @media screen and (max-width: 577px) {
+        padding: 0;
+    }
+    h1{
+        font-weight: 700;
+        font-size: 30px;
+    }h3{
+        font-weight: 700;
+        font-size: 18px;
+    }
+    .next-btn:hover{
+        background-color: #80B127;
+    }
+    label{
+        color: #7A7A7A;
+        font-size: 16px;
+        font-weight: 400;
+    }
+    input::placeholder{
+        color: #7A7A7A;
+        font-weight: 400;
+    }
+    .forget-btn{
+        color: #7A7A7A !important;
+    }
+    .phone-input{
+        padding: 5px 5px !important;
+        input{
+            padding: 0;
+        }
+    }
+    ::ng-deep  {
+        .phone-input input {
+            padding: 6px 12px;
+            width: 100%;
+        }
+        .phone-input input::placeholder{
+            font-family: 'themify22' , sans-serif;
+        }   
+        ul {
+        padding-left:0;
+        }
+        .p-inputtext{
+            padding: 6px 12px;
+        }
+        .p-password{
+            width: 100%;
+        }
+        .p-password-input{
+            width: 100%;
+        }
+        ::-webkit-scrollbar {
+            width: 5px; 
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #6a6565;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--main-color); 
+            border-radius: 10px;
+        }
+        input:hover {
+            border-color: var(--main-color); 
+        }
+        input:focus {
+            border-color: var(--main-color); 
+            box-shadow: none;
+        }
+        .p-inputwrapper-focus{
+            border-color: var(--main-color);
+            box-shadow: none;
+        }
+        .p-inputwrapper:hover{
+            border-color: var(--main-color);
+        }
+        .rtl{
+            eyeslashicon.p-element.p-icon-wrapper{
+                left: 0.75rem;
+                right: initial;
+            }
+            eyeicon.p-element.p-icon-wrapper{
+                left: 0.75rem;
+                right: initial;
+            }
+        }
+        
+        
+    }
+    
+}
+i{
+    color:#80B127;
+    font-size: 20px;
+}
+::ng-deep{
+    .p-toast .p-toast-message .p-toast-message-content .p-toast-detail{
+        font-family: 'themify22' , sans-serif;
+        margin: 0.3rem 0.5rem;
+    }
+}

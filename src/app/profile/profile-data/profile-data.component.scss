@@ -1,0 +1,56 @@
+.profile-data{
+    ::ng-deep {
+        ul {
+        padding-left:0;
+        }
+        .p-inputtext{
+            padding: 6px 12px;
+        }
+        .p-password{
+            width: 100%;
+        }
+        .p-password-input{
+            width: 100%;
+        }
+        ::-webkit-scrollbar {
+            width: 5px; 
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #6a6565;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--main-color); 
+            border-radius: 10px;
+        }
+        input:hover {
+            border-color: var(--main-color); 
+        }
+        input:focus {
+            border-color: var(--main-color); 
+            box-shadow: none;
+        }
+        .p-inputwrapper-focus{
+            border-color: var(--main-color);
+            box-shadow: none;
+        }
+        .p-inputwrapper:hover{
+            border-color: var(--main-color);
+        }
+        .rtl{
+            eyeslashicon[data-pc-section='hideIcon']{
+                left: 0.75rem;
+                right: initial;
+            }
+            eyeicon[data-pc-section='showIcon']{
+                left: 0.75rem;
+                right: initial;
+            }
+        }
+        @media screen and (max-width:767px) {
+            
+        }
+    }
+    
+}

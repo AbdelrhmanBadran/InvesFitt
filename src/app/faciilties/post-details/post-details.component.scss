@@ -1,0 +1,244 @@
+.post-details{
+    font-family: "themify22", sans-serif;
+    
+    .text-rate{
+        color:#F9AF2C;
+    }
+    ::ng-deep{
+        .mat-mdc-menu-content .mat-mdc-menu-item .mat-mdc-menu-item-text{
+            font-family: 'themify22' , sans-serif;
+        }
+        .p-dialog .p-dialog-content{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .p-card .p-card-content {
+            padding: 0.25rem 0;
+        }
+        span{
+            font-family: "themify22", sans-serif;
+        }
+        .p-button{
+            background: transparent;
+            color: #7A7A7A;
+            border-color: #CDCDCD;
+            border-radius: 10px;
+            font-weight: 700;
+            padding: 10px 25px 10px 25px;
+            white-space: nowrap;
+            font-family: "themify22", sans-serif;
+            @media screen and (max-width:577px) {
+                font-size: 14px;
+            }
+        }
+        .mdc-list-item{
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+    .post{
+        background: #fff;
+        overflow: hidden;
+        border-radius: 10px;
+        padding-bottom: 10px;
+    }
+        .post-image{
+            border-radius: 10px;
+            overflow: hidden;
+            max-height: 340px;
+            img{
+                max-width: 100%;
+                object-fit: cover;
+                border-radius: 8px;
+            }
+        
+    }
+    .post-video {
+        // width: 80%;
+        display: flex;
+        justify-content: center;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        max-height: 340px;
+        @media screen and (max-width:577px) {
+            border-radius: 10px;
+            
+        }
+    }
+    video {
+        width: 100%;
+        display: block;
+    }
+    
+    button{
+    appearance: none;
+        background-color: transparent;
+        border: none;
+        margin: 0;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+        outline: none;
+        font-family: "themify22", sans-serif;;
+    }
+    .post-image{
+        img{
+            width: auto;
+            @media screen and (max-width:577px) {
+                width: 100%;
+            }
+        }
+    }
+    .reactions-count{
+        span{
+            font-size: 14px;
+            font-weight: 400;
+            color: #999999;
+        }
+    }
+    .text-like{
+        color: #1e76ff;
+    }
+    .rating-dialog{
+        ::ng-deep{
+            .p-rating .p-rating-item.p-rating-item-active .p-rating-icon{
+                color:#F9AF2C;
+            }
+            .p-button{
+                border: none;
+                padding: 0;
+                display: block;
+                margin-inline-start: auto;
+                color: #1e76ff;
+            }
+            .p-dialog-content{
+                width: 50vw;
+                @media screen and (max-width:577px) {
+                    width: 100vw;
+                    padding: 10px 20px;
+                }
+            }    
+        }
+    }
+    .comment-img{
+        width: 50px;
+        height: 50px;
+        flex-shrink: 0;
+        @media screen and (max-width : 577px) {
+            width: 40px;
+            height: 40px;
+        }
+    }
+    .comment-details{
+        background-color: #8EC32A0D;
+        padding: 10px;
+        border-radius: 10px;
+        @media screen and (max-width : 577px) {
+            padding: 5px;
+        }
+    }
+    .comment-container{
+        padding: 5px 2px;
+        ::ng-deep{
+            .mat-icon {
+                height: 48px;
+                width: 48px;
+            }
+            
+        }
+    }
+    .v-line{
+        width: 1px;
+        background-color: #D0D5DD;
+        height: 100%;
+    }
+    .comment-input{
+        button{    
+            padding: 6px 10px;
+        }
+    }
+    .comment-desc{
+        p{
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    }
+    ::ng-deep{
+        .p-image-preview-container{
+            max-height: 340px;
+            img{
+                max-width: 100%;
+                object-fit: cover;
+                border-radius: 8px;
+            }
+        }
+        .p-accordion-header-link{
+            border: none;
+            color: #7A7A7A;
+        }
+        .p-accordion .p-accordion-content{
+            border: none;
+            background-color: transparent;
+        }
+        .p-accordion .p-accordion-header:not(.p-highlight):not(.p-disabled):hover .p-accordion-header-link {
+            background: transparent;
+            border-color: transparent;
+        }
+        .p-accordion .p-accordion-header:not(.p-disabled).p-highlight:hover .p-accordion-header-link{
+            background: transparent;
+            border-color: transparent;
+        }
+        // .p-accordion-header-link:hover .show-comment{
+        //     border-bottom: 1px solid #7A7A7A ;
+        // }
+        .p-accordion .p-accordion-content{
+            padding: 0;
+        }
+
+    }
+    .comment-input{
+        background-color: #8EC32A0D;
+        padding: 10px 5px;
+        border-radius: 10px;
+    }
+    .pop-up-image{
+        transition: 0.5s all;
+        background-color: #fff;
+        img{
+            transition: 0.5s all;
+            
+        }
+    }
+    .h-0{
+        height: 0;
+    }
+    .w-0{
+        width:  0;
+    }
+    .h-auto{
+        height: auto;
+    }
+    .user-comment-input{
+        transition: 1s all ease-in-out;
+    }
+    .h-auto{
+        height: auto;
+    }
+    
+}
+
+::ng-deep{
+    .mat-mdc-menu-item-text span{
+        font-family: 'themify22' , sans-serif;
+    }
+    span{
+        font-family: 'themify22' , sans-serif;
+    }
+    .p-toast .p-toast-message .p-toast-message-content .p-toast-detail{
+        font-family: 'themify22' , sans-serif;
+        margin: 0.3rem 0.5rem;
+    }
+}

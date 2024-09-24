@@ -1,0 +1,20 @@
+.search-data{
+    .faciilty-container{
+        padding: 150px 0;
+        border-radius: 10px;
+        overflow: hidden;
+        overflow: hidden;
+        img{
+            max-width: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        
+        .layer{
+            background: linear-gradient( to top , rgba(0,0,0,0.73) ,rgba(0,0,0,0.50));
+        }
+        @media screen and (max-width:577px) {
+            padding: 100px 0;
+        }
+    }
+}

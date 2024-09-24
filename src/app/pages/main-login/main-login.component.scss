@@ -1,0 +1,36 @@
+.main-login{
+    padding: 0 60px;
+    @media screen and (max-width: 577px) {
+        padding: 0;
+    }
+    h1{
+        font-weight: 700;
+        font-size: 30px;
+    }h3{
+        font-weight: 700;
+        font-size: 18px;
+    }
+
+    .form-control{
+        box-shadow: none;
+    }
+    .next-btn:hover{
+        background-color: #80B127;
+    }
+    label{
+        color: #7A7A7A;
+        font-size: 16px;
+        font-weight: 400;
+    }
+    input::placeholder{
+        color: #7A7A7A;
+        font-weight: 400;
+    }
+    .forget-btn{
+        color: #7A7A7A !important;
+    }
+}
+i{
+    color:#619009;
+    font-size: 20px;
+}

@@ -1,0 +1,204 @@
+.facility-details{
+    font-family: "themify22", sans-serif;
+    a{
+        color: inherit;
+    }
+    .facility-img{
+        height: 450px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        @media screen and (max-width:577px) {
+            height: 300px;
+        }
+    }
+    .user-icon{
+        display: inline-block;
+        padding: 5px 15px;
+        border-radius: 20px; 
+        // border-radius: 5px;
+        background-color: #80B127;
+        margin-inline: 10px;
+        transform: translateY(50%);
+        i{
+            color: #fff;
+        }
+    }
+    .text-rate{
+        color:#F9AF2C;
+    }
+    .facility-title{
+        line-height: 20px;
+        font-weight: 700;
+        color: #232323;
+    }
+    ::ng-deep{
+        .p-card .p-card-content {
+            padding: 0.25rem 0;
+        }
+        span{
+            font-family: "themify22", sans-serif;
+        }
+        .p-button{
+            background: transparent;
+            color: #7A7A7A;
+            border: 1px solid #CDCDCD;
+            border-radius: 10px;
+            font-weight: 700;
+            padding: 10px 25px 10px 25px;
+            white-space: nowrap;
+            font-family: "themify22", sans-serif;
+            @media screen and (max-width:577px) {
+                font-size: 14px;
+            }
+        }
+        .mdc-list-item{
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .add-content-btn{
+            padding: 0 10px;
+            background-color: var(--main-color);
+            .p-button-label{
+                font-size: 25px;
+                color: #fff;
+            }
+        }
+    }
+    .post{
+        background: #fff;
+        overflow: hidden;
+        border-radius: 10px;
+        padding-bottom: 10px;
+    }
+        .post-image{
+            border-radius: 10px;
+            overflow: hidden;
+            max-height: 340px;
+            img{
+                max-width: 100%;
+                object-fit: cover;
+                border-radius: 8px;
+            }
+        
+    }
+    
+    .post-video{
+        video{
+            max-height: 340px;
+        }
+    }
+    .post-video {
+        // width: 80%;
+        display: flex;
+        justify-content: center;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        @media screen and (max-width:577px) {
+            border-radius: 10px;
+            
+        }
+    }
+    video {
+        width: 100%;
+        display: block;
+    }
+    
+    button{
+    appearance: none;
+        background-color: transparent;
+        border: none;
+        margin: 0;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+        outline: none;
+        font-family: "themify22", sans-serif;;
+    }
+    .post-image{
+        img{
+            width: auto;
+            @media screen and (max-width:577px) {
+                width: 100%;
+            }
+        }
+    }
+    .reactions-count{
+        span{
+            font-size: 14px;
+            font-weight: 400;
+            color: #999999;
+        }
+    }
+    .text-like{
+        color: #1e76ff;
+    }
+    .rating-dialog{
+        ::ng-deep{
+            .p-rating .p-rating-item.p-rating-item-active .p-rating-icon{
+                color:#F9AF2C;
+            }
+            .p-button{
+                border: none;
+                padding: 0;
+                display: block;
+                margin-inline-start: auto;
+                color: #1e76ff;
+            }
+            .p-dialog-content{
+                width: 50vw;
+                @media screen and (max-width:577px) {
+                    width: 100vw;
+                    padding: 10px 20px;
+                }
+            }    
+        }
+    }
+}
+::ng-deep{
+    span{
+        font-family: 'themify22' , sans-serif;
+    }
+    .p-overlaypanel.p-overlaypanel-flipped:before {
+        border: none;
+    }
+    .p-overlaypanel.p-overlaypanel-flipped:after {
+        border: none; 
+    }
+    .p-overlaypanel .p-overlaypanel-close {
+        background: transparent; 
+        color: #000;
+        width: 2rem;
+        height: 2rem;
+        transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+        border-radius: 50%;
+        position: absolute;
+        top: 1.25rem;
+    }
+    .isLeft{
+        right: 1.25rem;
+    }
+    .isRight{
+        left: 1.25rem;
+        right: inherit;
+    }
+    .btns-container button{
+        width: 100%;
+        text-align: start;
+        border: none;
+        padding: 7px;
+        margin: 5px 0;
+        background-color:transparent;
+        transition: 0.5s all;
+    }
+    .btns-container button:hover{
+        background-color:#FAFAFA ;
+    }
+}
+::ng-deep{
+    .p-toast .p-toast-message .p-toast-message-content .p-toast-detail{
+        font-family: 'themify22' , sans-serif;
+        margin: 0.3rem 0.5rem;
+    }
+}

@@ -1,0 +1,11 @@
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+}
+.footer-layout{
+    flex-shrink: 0; 
+}
+.content{
+    flex: 1; 
+}

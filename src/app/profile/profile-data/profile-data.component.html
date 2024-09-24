@@ -1,0 +1,57 @@
+<div class="profile-data h-100">
+    <div class="container h-100">
+        <div class="row h-100">
+            <div class="col-12 h-100">
+                <div class="p-3 rounded-3 bg-white h-100 d-flex flex-column gap-2">
+                    <form [formGroup]="EditProfileForm" class="form" (ngSubmit)="editProfile(EditProfileForm)">
+                        <div class="container-fluid">
+                            <div class="row gy-3">
+                                    <div class="col-12">
+                                    <div class="d-flex flex-column gap-2">
+                                        <label for="username">{{'Full Name' | translate}}</label>
+                                        <input pInputText id="username" formControlName="full_name"  placeholder="{{'Enter Full Name' | translate}}" />
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <label for="phone">{{'phone' | translate}}</label>
+                                </div>
+                                <div class="col-md-10">
+                                    <input type="tel" pInputText class="phone-input w-100"  placeholder="{{'phone placeholder' | translate}}" formControlName="mobile" id="phone"/>
+                                </div>
+                                <div class="col-md-2">
+                                    <p-dropdown class="w-100" [options]="countryCodes" formControlName="dial_code"></p-dropdown>
+                                </div>
+                                <div class="col-12">
+                                    <label for="email">{{'email' | translate}}</label>                  
+                                </div>
+                                <div class="col-12">
+                                    <input pInputText id="email" formControlName="email"  class="w-100" readonly />
+                                </div>
+                                <div class="col-12">
+                                    <label for="password">{{'new password' | translate}}</label>
+                                </div>
+                                <div class="col-12">
+                                    <p-password id="password" formControlName="new_password" class="w-100" [feedback]="false" [toggleMask]="true"></p-password>
+                                </div>
+                                <div class="col-12">
+                                    <label for="password">{{'old password' | translate}}</label>
+                                </div>
+                                <div class="col-12">
+                                    <p-password id="password" formControlName="old_password" class="w-100" [feedback]="false" [toggleMask]="true"></p-password>
+                                </div>
+                                <div class="col-12">
+                                    <div>
+                                        <button class="btn bg-main text-white w-50 d-block mx-auto">
+                                            {{'Save'|translate}}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ngx-spinner bdColor = "#fff" size = "default" color = "#80b127" type = "ball-clip-rotate" [fullScreen] = "true"></ngx-spinner>

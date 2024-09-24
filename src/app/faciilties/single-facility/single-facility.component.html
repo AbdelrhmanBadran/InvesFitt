@@ -1,0 +1,174 @@
+<!-- <app-header></app-header> -->
+<section class="facility-details">
+    <div class="container">
+        <div class="row justify-content-center" >
+            <div class="col-md-10 col-sm-12 mt-2">
+                <p-card>
+                    <ng-template pTemplate="header">
+                        <div class="position-relative">
+                            <img alt="Card"  [src]="facilityImageBaseurl + facilityDetails?.img" class="facility-img" (error)="handleImage($event)" *ngIf="dataDone"/>
+                            <div *ngIf="!dataDone">
+                                <p-skeleton width="100%" height="450px" styleClass="mb-2" />
+                            </div>
+                            <span class="position-absolute bottom-0 start-0 user-icon rounded-pill">
+                                <i class="fa-regular fa-user"></i>
+                                <span class="text-white">
+                                    {{noOfFollowers}}
+                                </span>
+                            </span>
+                        </div>
+
+
+                    </ng-template>
+                    <div class="my-2">
+                        <span class="facility-title">{{facilityDetails?.user_name}}</span>
+                        <div *ngIf="!dataDone">
+                            <p-skeleton width="100px" height="20px" styleClass="mb-2" />
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-center align-items-center" *ngIf="dataDone">
+                            <span class="d-flex justify-content-center align-items-center position-relative" style="cursor: pointer; z-index: 12;" (click)="goToMaps()">
+                                <i class="fa-solid fa-location-dot mx-1" *ngIf="!ownFacility || userMode"> </i>
+                                <span *ngIf="!ownFacility || userMode && dataDone">{{(facilityDetails?.distance -0).toFixed(2)}} KM</span>
+                            </span>
+                        </div>
+                        <div *ngIf="!dataDone">
+                            <p-skeleton width="90px" height="20px" styleClass="mb-2" />
+                        </div>
+                        <div *ngIf="dataDone">
+                            <i class="fa-regular fa-star mx-1 text-rate" *ngIf="ratingValue == 0"></i>
+                            <i class="fa-solid fa-star mx-1 text-rate" *ngIf="ratingValue !== 0"></i>
+                            <span *ngIf="dataDone">{{allRates}} / {{facilityDetails?.rate_info.num_of_rates}} {{'Review' | translate}}</span>
+                        </div>
+                        <div *ngIf="!dataDone">
+                            <p-skeleton width="100px" height="20px" styleClass="mb-2" />
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end mt-2">
+                        <div *ngIf="(userMode || visitorMode) && dataDone" >
+                            <i class="fa-solid fa-phone main-color"></i>
+                            <a [href]="'tel:'+facilityDetails?.dial_code + facilityDetails?.mobile">
+                                {{facilityDetails?.dial_code + facilityDetails?.mobile}}
+                            </a>
+                        </div>
+                        <div *ngIf="!dataDone">
+                            <p-skeleton width="150px" height="20px" styleClass="mb-2" />
+                        </div>
+                        <div *ngIf="(!userMode && !visitorMode) && dataDone" >
+                            <span>#{{facilityDetails?.id}}</span>
+                        </div>
+                    </div>
+                    <ng-template pTemplate="footer">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap" *ngIf="dataDone">
+                            <div>
+                                <span>{{noOfFollowers}} {{'Followers' |translate}}  </span>
+                                <span>  {{noOfLovers}} {{'Love' |translate}}</span>
+                            </div>
+                            <div *ngIf="!(!ownFacility || userMode)">
+                                <p-button (click)="op.toggle($event) ; toggleLayer()" label="+" styleClass="add-content-btn"/>
+                                <p-overlayPanel #op  [style]="{ width: '250px' }" >
+                                    <div class="d-flex flex-column align-items-start btns-container">
+                                        <div class="header d-flex justify-content-between w-100" style="font-weight: 600;">
+                                            <span>
+                                                {{'Add Content' | translate}}
+                                            </span>
+                                            <span style="cursor: pointer;" (click)="this.common.layerOn = false; op.toggle($event)">
+                                                <i class="fa-solid fa-xmark" ></i>
+                                            </span>
+                                        </div>
+                                        <div class="pt-3">
+                                            <button (click)="op.toggle($event) ;openDialog('post')">
+                                                <span>
+                                                    <img class="img-fluid" src="assets/images/product-vector.png" alt="add product">
+                                                </span>
+                                                <span >
+                                                    {{'Product' | translate}}
+                                                </span>
+                                            </button>
+                                            <button (click)="op.toggle($event) ; openDialog('image')">
+                                                <span>
+                                                    <img class="img-fluid" src="assets/images/image.png" alt="add image">
+                                                </span>
+                                                <span>
+                                                    {{'Image' | translate}}
+                                                </span>
+                                            </button>
+                                            <button (click)="op.toggle($event) ; openDialog('video')">
+                                                <span>
+                                                    <img class="img-fluid" src="assets/images/video.png" alt="add image">
+                                                </span>
+                                                <span>
+                                                    {{'Video' | translate}}
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </p-overlayPanel>
+                            </div>
+                        </div>
+                        <div *ngIf="!dataDone">
+                            <p-skeleton width="120px" height="20px" styleClass="mb-2" />
+                        </div>
+                        <div class="d-flex gap-2 mt-2 flex-wrap" *ngIf="!ownFacility || userMode">
+                            <p-button (click)="likePage(facilityDetails?.id)">
+                                <span *ngIf="!isLove">
+                                    {{'Love' | translate}}
+                                </span>
+                                <span *ngIf="isLove" style="text-transform: wrap;">
+                                    {{'Un Love' | translate}}
+                                </span>
+                            </p-button>
+                            <p-button (click)="followFacility(facilityDetails?.id)">
+                                <span *ngIf="!isFollow">
+                                    {{'Follow' | translate}}
+                                </span>
+                                <span *ngIf="isFollow">
+                                    {{'Un Follow' | translate}}
+                                </span>
+                            </p-button>
+
+                            <p-button (click)="showDialog()">
+                                <span *ngIf="facilityDetails?.rate_info.my_rate == 0 || !facilityDetails?.rate_info.my_rate ">
+                                    {{'Rate' | translate}}
+                                </span>
+                                <span *ngIf="facilityDetails?.rate_info.my_rate > 0 && facilityDetails?.rate_info.my_rate">
+                                    {{'Re-Rate' | translate}}
+                                </span>
+                            </p-button>
+                            <p-dialog header="{{'Rate Facility' | translate}}" [(visible)]="visible" class="rating-dialog" [modal]="true" >
+                                <p-rating [(ngModel)]="ratingValue" [cancel]="false"></p-rating>
+                                <p-button (click)="rateFacility()">
+                                    {{'Submit' | translate}}
+                                </p-button>
+                            </p-dialog>
+                        </div>
+                    </ng-template>
+                </p-card>
+                <div class="row">
+                    
+            <div class="col-md-8" *ngIf="dataDone">
+                <app-all-posts [posts]="posts" ></app-all-posts>
+            </div>
+            <div class="col-md-3">
+                <div class="d-flex justify-content-center align-items-center mt-5 position-sticky top-0">
+                    <span>
+                    </span>
+                </div>
+            </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- <div class="pt-5 position-relative" >
+            <ngx-spinner bdColor = "transparent" size = "default" color = "#80b127" type = "ball-clip-rotate" [fullScreen] = "false"></ngx-spinner>
+        </div> -->
+    </div>
+</section>
+
+<!-- <app-footer></app-footer> -->
+
+<!-- <div (click)=" toggleLayer()" class="layer position-fixed top-0 start-0 end-0 bottom-0 bg-opacity-50 bg-dark" [class]="common.layerOn ? 'd-block' : 'd-none'" style="z-index: 13;">
+</div> -->
+
+<p-toast></p-toast>

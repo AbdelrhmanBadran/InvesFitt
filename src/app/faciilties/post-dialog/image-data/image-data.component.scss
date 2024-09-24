@@ -1,0 +1,57 @@
+.img-data{
+    .product-image{
+        position: relative;
+        height: 150px;
+        border: 1px dashed #d1d5db;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .substract-img , .dialog-image{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        }
+    }
+    .form-select{
+        transition: 0.5s all;
+        font-family: 'themify22' , sans-serif;
+    }
+    .form-select:hover{
+        border-color: #3B82F6;
+    }
+    .producImg{
+        width: 100%;
+        min-height: 150px;
+    }
+    ::ng-deep{
+        .p-inputtext{
+            padding: 0.25rem 0.25rem;
+            
+        }
+    }
+}
+
+::ng-deep{
+    .p-dialog {
+        max-height: initial;
+        height: auto;
+    }
+    .p-dialog-content {
+        overflow-y: inherit;
+        flex-grow: 1;
+    }
+    .p-toast .p-toast-message .p-toast-message-content .p-toast-detail{
+        font-family: 'themify22' , sans-serif;
+        margin: 0.3rem 0.5rem;
+    }
+    .p-toast-top-right {
+        top: 0;
+        right: 20px;
+    }
+    .p-toast {
+        position: absolute;
+        width: 100%;
+    }
+}

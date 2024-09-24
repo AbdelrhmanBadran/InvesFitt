@@ -1,0 +1,27 @@
+<section class="home-search">
+    <div class="container-fluid home-search-container">
+        <div class="row hstack justify-content-center gy-3">
+            <div class="col-md-6">
+                <div class="vstack justify-content-center">
+                    <h1 style="font-weight: 700;">
+                        {{'Everything you want from the market' | translate }}
+                    </h1>
+                    <p>
+                        هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل
+                    </p>
+                    <div class="position-relative">
+                        <span class="position-absolute glass-icon" >
+                            <i class="fa-solid fa-magnifying-glass" *ngIf="empty"></i>
+                        </span>
+                        <input type="text" class="form-control" placeholder="{{'search placeholder' | translate}}" #searchInput (input)="search()" routerLink="/shome/search">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="hstack justify-content-center">
+                    <img src="assets/images/undraw_adventure_re_ncqp 1.png" class="img-fluid" alt="home page" width="390px" height="250px">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,104 @@
+<div class="facility-data h-100" *ngIf="!mapMode && !serviceMode">
+    <div class="container h-100">
+        <div class="row h-100">
+            <div class="col-12 h-100">
+                <div class="p-3 rounded-3 bg-white h-100 d-flex flex-column gap-2">
+                    <form [formGroup]="facilityForm" class="form" (ngSubmit)="addOrEditFacility(facilityForm)">
+                        <div class="container-fluid">
+                            <div class="row gy-3">
+                                <div class="col-12">
+                                    <div class="d-flex flex-column gap-2">
+                                        <label for="username">{{'Facility Name' | translate}}</label>
+                                        <input pInputText id="username" formControlName="user_name"  placeholder="{{'Enter Full Name' | translate}}" />
+                                    </div>
+                                </div> 
+                                <div class="col-12">
+                                    <label for="services">{{'services' | translate}}</label>
+                                    <br>
+                                    <input pInputText id="services" (click)="showServices()" formControlName="services_id" placeholder="{{'Enter service' | translate}}" class="w-100" />                  
+                                </div>
+                                <div class="col-12" >
+                                    <div class="d-flex flex-column gap-2">
+                                        <label for="username" (click)="mapMode  =true">{{'Location' | translate}}</label>
+                                        <input pInputText id="location" formControlName="address"  placeholder="{{'Enter location' | translate}}"  (click)="showMap()" />
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <label for="phone">{{'phone' | translate}}</label>
+                                </div>
+                                <div class="col-md-10">
+                                    <input type="tel" pInputText class="phone-input w-100"  placeholder="{{'phone placeholder' | translate}}" formControlName="mobile" id="phone"/>
+                                </div>
+                                <div class="col-md-2">
+                                    <p-dropdown class="w-100" [options]="countryCodes" formControlName="dial_code"></p-dropdown>
+                                </div>
+                                <div class="col-12">
+                                    <label for="phone">{{'Facility description' | translate}}</label>
+                                </div>
+                                <div class="col-12">
+                                    <div class="d-flex flex-column gap-2">
+                                        <textarea 
+                                            rows="5"
+                                            cols="30" 
+                                            pInputTextarea 
+                                            formControlName="descr"
+                                            >
+                                        </textarea>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div>
+                                        <button class="btn bg-main text-white w-50 d-block mx-auto">
+                                            {{'Save'|translate}}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="position-relative">
+    <ngx-spinner bdColor = "#fff" size = "default" color = "#80b127" type = "ball-clip-rotate" [fullScreen] = "false"></ngx-spinner>
+</div>
+<div class="map" *ngIf="mapMode">
+    <google-map
+    height="500px"
+    width="100%"
+    [zoom]="zoom"
+    [center]="center"
+    [options]="options"
+    (mapClick)="addMarker($event)"
+    >
+    <map-marker
+        [position]="markersPostion"
+        [options]="markersOptions"
+    ></map-marker>
+    </google-map>
+    <br>
+    <button class="btn btn-danger text-white mx-3" (click)="mapMode = false">{{'Back'|translate}}</button>
+    <button class="btn bg-main text-white" (click)="saveLocation()">{{'Save'|translate}}</button>
+</div>
+<div class="services" *ngIf="serviceMode">
+    <div class="container">
+        <div class="row gy-3">
+            <div class="col-md-4" *ngFor="let serv of AllServices ; let i = index" (click)="selectService(serv.id , i)" style="cursor: pointer;">
+                <div #ImageContainer>
+                    <img [src]="serviceImageBaseurl + serv.ser_image" class="img-fluid" [alt]="serv.ser_name" (error)="common.handleImage($event)">
+                </div>
+                <div class="text-center service-text">
+                    {{serv.ser_name}}
+                </div>
+            </div>
+            <div class="col-12">
+                <br>
+                <button class="btn btn-danger text-white mx-3" (click)="serviceMode = false">{{'Back'|translate}}</button>
+                <button class="btn bg-main text-white" (click)="saveService()">{{'Save'|translate}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>               

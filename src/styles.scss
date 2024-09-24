@@ -1,0 +1,74 @@
+/* You can add global styles to this file, and also import other style files */
+@import "../node_modules//bootstrap/dist/css/bootstrap.min.css";
+@import "primeicons/primeicons.css";
+
+@font-face {
+    font-family: 'themify';
+	src:url('assets/fonts/themify.eot?-fvbane');
+	src:url('assets/fonts/themify.eot?#iefix-fvbane') format('embedded-opentype'),
+    url('assets/fonts/themify.woff?-fvbane') format('woff'),
+    url('assets/fonts/themify.ttf?-fvbane') format('truetype'),
+    url('assets/fonts/themify.svg?-fvbane#themify') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'themify22';
+	src:url('assets/fonts/DroidKufi-Regular.ttf?-fvbane') format('truetype'),
+		url('assets/fonts/DroidKufi-Bold.ttf?-fvbane') format('truetype');
+
+	font-weight: normal;
+	font-style: normal;
+}
+$myColor: #80B127;
+:root {
+    --main-color: #80B127;
+}
+html, body 
+{
+    margin: 0;
+    height: 100%;
+    font-family: 'themify22' , sans-serif !important;
+    background-color: #FAFAFA;
+    // display: none;
+}
+
+.main-color{
+    color: $myColor;
+}
+.bg-main{
+    background-color: $myColor;
+}
+.bg-main:hover{
+    background-color: $myColor;
+}
+.cursor{
+    cursor: pointer;
+}
+a{
+    text-decoration: none;
+}
+::ngdeep {
+    .p-dropdown-items{
+        padding: 0 !important;
+    }
+    .p-inputtext{
+        padding: 5px 5px;
+    }
+}
+.la-ball-clip-rotate.la-2x > div {
+    width: 30px;
+    height: 30px;
+    border-width: 2px;
+}
+
+::ng-deep{
+    font-family: 'themify22' , sans-serif;
+    
+}
+::ng-deep{
+    .la-ball-clip-rotate.la-2x{
+        width: 32px !important;
+        height: 32px !important;
+    }
+}

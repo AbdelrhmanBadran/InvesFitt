@@ -1,0 +1,63 @@
+<!-- <app-header></app-header> -->
+<section class="orders">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumbb position-relative"  style="z-index: 12;">
+                    <h2 class="position-relative" style="z-index: 12;">{{'Reservations' | translate}}</h2>
+                    <img class="position-absolute top-0 start-0 w-100 h-100 " src="assets/images/orderBreadcrumb.png" alt="orderBreadcrumb">
+                    <div class="position-relative d-flex" style="z-index: 12;">
+                        <a routerLink="/orders/Allorders" class="text-white">
+                            <h5>
+                                {{'orders' | translate}}
+                            </h5>
+                        </a>
+                        <span class="mx-2">></span>
+                        <h6>{{orderDetails?.status | translate}}</h6>   
+                        <span class="mx-2">></span>
+                        <p>#{{orderDetails?.id}}</p>   
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 bg-white p-4 rounded-3" *ngIf="!loading">
+                <div  class="position-relative" style="z-index: 12;">
+                    <div class="order-details rounded-3  d-flex flex-column gap-3">
+                        <div class="order-header d-flex justify-content-between align-items-center gap-3">
+                            <h4>
+                                {{'number of reservation' | translate}}#{{orderDetails?.id}}
+                            </h4>
+                            <span>
+                                {{orderDetails?.date_added | date}}
+                            </span>
+                        </div>
+                        <div class="order-facility d-flex justify-content-between align-orderDetailss-center">
+                            <h6>
+                                {{orderDetails?.user_name}}
+                            </h6>
+                            <span>
+                                {{decimalPipe.transform(orderDetails?.distance , '1.2-2')}}KM
+                            </span>
+                        </div>
+                        <div class="order-footer d-flex justify-content-between align-items-center">
+                            <h6>
+                                {{'quantity' | translate}} : {{orderDetails?.total_quantity}}
+                            </h6>
+                            <span>
+                                {{'total price' | translate}} : {{orderDetails?.total_price | currency}}
+                            </span>
+                        </div>
+                        <div>
+                            <p-messages [(value)]="messages" [enableService]="false" [closable]="false" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <p-toast></p-toast> -->
+            <div class="position-relative mt-5">
+                <ngx-spinner bdColor = "#fff" size = "default" color = "#80b127" type = "ball-clip-rotate" [fullScreen] = "false"></ngx-spinner>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- <app-footer></app-footer> -->

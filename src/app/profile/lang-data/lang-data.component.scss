@@ -1,0 +1,44 @@
+.lang-data{
+    ::ng-deep{
+        ul{
+            margin-bottom: 0;
+            padding-left: 0;
+            padding: 10px;
+        }
+        .p-listbox .p-listbox-list .p-listbox-item{
+            border: 1px solid#7a7a7a;
+            border-radius: 10px;
+            margin: 10px 0;
+            font-family: 'themify22' ,sans-serif ;
+
+        }
+        .p-listbox .p-listbox-list .p-listbox-item.p-highlight{
+            border-color: var(--main-color);
+            color: var(--main-color);
+            background: #fff;
+            position: relative;
+        }
+        .p-listbox .p-listbox-list .p-listbox-item.p-highlight::after{
+            content:'\2713';
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: var(--main-color);
+            font-size: 30px; 
+            margin:auto 10px; 
+        }
+        .p-listbox {
+            border: none;
+        }
+        
+    }
+    .isLeft{
+        left: 0;
+        right: initial;
+
+    }
+    .isRight{
+        right: 0;
+        left: initial;
+    }
+}

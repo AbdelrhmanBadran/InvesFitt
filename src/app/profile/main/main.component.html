@@ -1,0 +1,198 @@
+<!-- <app-header></app-header> -->
+<section class="profile mt-5">
+    <div class="container">
+        <div class="row gy-3">
+            <div class="col-12">
+                <div class="breadcrumbb position-relative"  style="z-index: 12;">
+                    <h2 class="position-relative" style="z-index: 12;">{{'Profile' | translate}}</h2>
+                    <img class="position-absolute top-0 start-0 w-100 h-100 " src="assets/images/orderBreadcrumb.png" alt="orderBreadcrumb">
+                    <div class="position-relative" style="z-index: 12;">
+                        <a class="main-breadcrumb text-white" routerLink="/">{{'Main' | translate}}</a>
+                        <span class="mx-2">></span>
+                        <span>{{breadCrunbText | translate}}</span>   
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="pages-data">
+                    <p-card [style]="{ width: '100%' }">
+                        <ng-template pTemplate="header" class="p-1">
+                            <label for="userInput" class="p-3 w-100"  *ngIf="profileMode">
+                                <div class="card-head position-relative m-3">
+                                    <div class="user-image">
+                                        <div class="image-container" >
+                                            <img alt="Card" [src]="FullImageSrc" #profileImage (error)="common.handleImage($event)"/>
+                                        </div>
+                                        <div class="image-picker">
+                                            <div class="d-flex justify-content-center align-items-center h-100">
+                                                <i class="fa-solid fa-pen"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </label>
+                            <label for="facilityInput" class="p-3 w-100"  *ngIf="facilityMode">
+                                <div class="card-head position-relative m-3">
+                                    <div class="user-image">
+                                        <div class="facility-img" >
+                                            <div class="image-container">
+                                                <img alt="Card" [src]="facilityImg" #profileImage (error)="common.handleImage($event)"/>
+                                            </div>
+                                            <div class="image-picker">
+                                                <div class="d-flex justify-content-center align-items-center h-100">
+                                                    <i class="fa-solid fa-pen"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </label>
+                            <input *ngIf="facilityMode" type="file" id="facilityInput" class="d-none" (change)="getFacilityImageSrc($event)">
+                            <input *ngIf="profileMode" type="file" id="userInput" class="d-none" (change)="getUserImageSrc($event)">
+                        </ng-template>
+                        <div class="pages-data-panel">
+                            <mat-list>
+                            <mat-list-item *ngIf="!pageMode">
+                                <a  class="d-flex justify-content-between" routerLink="/profile/profileData">
+                                    <span>
+                                        {{'Profile Data' | translate}}
+                                    </span>
+                                    <i class="fa-solid fa-chevron-right" *ngIf="common.lang_code == 'en'"></i>
+                                    <i class="fa-solid fa-chevron-left" *ngIf="common.lang_code == 'ar'"></i>
+                                </a>
+                            </mat-list-item>
+                            <mat-divider *ngIf="!pageMode"></mat-divider>
+                            <mat-list-item>
+                                <a  class="d-flex justify-content-between" routerLink="/profile/facilityData">
+                                    <span>
+                                        {{'Facility Data' | translate}}
+                                    </span>
+                                    <i class="fa-solid fa-chevron-right" *ngIf="common.lang_code == 'en'"></i>
+                                    <i class="fa-solid fa-chevron-left" *ngIf="common.lang_code == 'ar'"></i>
+                                </a>
+                            </mat-list-item>
+                            <mat-divider></mat-divider>
+                            <mat-list-item>
+                                <a  class="d-flex justify-content-between" routerLink="/profile/contactUs">
+                                    <span>
+                                        {{'Contact Us' | translate}}
+                                    </span>
+                                    <i class="fa-solid fa-chevron-right" *ngIf="common.lang_code == 'en'"></i>
+                                    <i class="fa-solid fa-chevron-left" *ngIf="common.lang_code == 'ar'"></i>
+                                </a>
+                            </mat-list-item>
+                            <mat-divider></mat-divider>
+                            <mat-list-item>
+                                <a  class="d-flex justify-content-between" routerLink="/profile/langData">
+                                    <span>
+                                        {{'Langauage' | translate}}
+                                    </span>
+                                    <i class="fa-solid fa-chevron-right" *ngIf="common.lang_code == 'en'"></i>
+                                    <i class="fa-solid fa-chevron-left" *ngIf="common.lang_code == 'ar'"></i>
+                                </a>
+                            </mat-list-item>
+                            <mat-divider></mat-divider>
+                            <mat-list-item>
+                                <button (click)="logout()"  class="d-flex justify-content-between logOut-btn">
+                                    <span>
+                                        {{'logout' | translate}}
+                                    </span>
+                                    <i class="fa-solid fa-chevron-right" *ngIf="common.lang_code == 'en'"></i>
+                                    <i class="fa-solid fa-chevron-left" *ngIf="common.lang_code == 'ar'"></i>
+                                </button>
+                            </mat-list-item>
+
+
+                            </mat-list>
+                        </div>
+                        <div class="align-items-center justify-content-center mt-2 sideBar">
+                            <p-button (click)="sidebarVisible = true" >
+                                <span>
+                                    my account
+                                </span>
+                            </p-button>
+                            <p-sidebar #sidebarRef [(visible)]="sidebarVisible">
+                                <ng-template pTemplate="headless">
+                                    <div class="mt-5 h-100">
+                                        <mat-list>
+                                            <mat-list-item *ngIf="!pageMode">
+                                                <a  class="d-flex justify-content-between" 
+                                                (click)="sidebarVisible = false"
+                                                routerLink="/profile/profileData">
+                                                    <span>
+                                                        {{'Profile Data' | translate}}
+                                                    </span>
+                                                    <i class="fa-solid fa-chevron-right" *ngIf="common.lang_code == 'en'"></i>
+                                                    <i class="fa-solid fa-chevron-left" *ngIf="common.lang_code == 'ar'"></i>
+                                                </a>
+                                            </mat-list-item>
+                                            <mat-divider *ngIf="!pageMode"></mat-divider>
+                                            <mat-list-item>
+                                                <a  class="d-flex justify-content-between" 
+                                                (click)="sidebarVisible = false"
+                                                routerLink="/profile/facilityData"
+                                                >
+                                                    <span>
+                                                        {{'Facility Data' | translate}}
+                                                    </span>
+                                                    <i class="fa-solid fa-chevron-right" *ngIf="common.lang_code == 'en'"></i>
+                                                    <i class="fa-solid fa-chevron-left" *ngIf="common.lang_code == 'ar'"></i>
+                                                </a>
+                                            </mat-list-item>
+                                            <mat-divider></mat-divider>
+                                            <mat-list-item>
+                                                <a  class="d-flex justify-content-between" 
+                                                (click)="sidebarVisible = false"
+                                                routerLink="/profile/contactUs"
+                                                >
+                                                    <span>
+                                                        {{'Contact Us' | translate}}
+                                                    </span>
+                                                    <i class="fa-solid fa-chevron-right" *ngIf="common.lang_code == 'en'"></i>
+                                                    <i class="fa-solid fa-chevron-left" *ngIf="common.lang_code == 'ar'"></i>
+                                                </a>
+                                            </mat-list-item>
+                                            <mat-divider></mat-divider>
+                                            <mat-list-item>
+                                                <a  class="d-flex justify-content-between" 
+                                                (click)="sidebarVisible = false"
+                                                routerLink="/profile/langData"
+                                                >
+                                                    <span>
+                                                        {{'Langauage' | translate}}
+                                                    </span>
+                                                    <i class="fa-solid fa-chevron-right" *ngIf="common.lang_code == 'en'"></i>
+                                                    <i class="fa-solid fa-chevron-left" *ngIf="common.lang_code == 'ar'"></i>
+                                                </a>
+                                            </mat-list-item>
+                                            <mat-divider></mat-divider>
+                                            <mat-list-item>
+                                                <a  class="d-flex justify-content-between" 
+                                                (click)="sidebarVisible = false"
+                                                routerLink="/profile/profileData"
+                                                >
+                                                    <span>
+                                                        {{'logout' | translate}}
+                                                    </span>
+                                                    <i class="fa-solid fa-chevron-right" *ngIf="common.lang_code == 'en'"></i>
+                                                    <i class="fa-solid fa-chevron-left" *ngIf="common.lang_code == 'ar'"></i>
+                                                </a>
+                                            </mat-list-item>
+                                        </mat-list>
+                                    </div>
+                                </ng-template>
+                            </p-sidebar>
+                        </div>
+                    </p-card>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- <app-footer></app-footer> -->
+
+<ngx-spinner bdColor="#fff" size="default" color="#80b127" type="ball-clip-rotate" [fullScreen] = "false"></ngx-spinner>
+

@@ -1,0 +1,27 @@
+.main-categries{
+    .cate-container{
+        padding: 5px;
+        background: #fff;
+        border-radius: 15px;
+        .img-container{
+            height: 265px;
+            border-radius: 15px;
+            @media screen and (max-width : 577px) {
+                height: auto;
+            }
+            img{
+                height: 100% !important;
+                transition: 0.5s all;
+            }
+        }
+        p{
+            padding: 20px;
+            text-align: center;
+            color: initial;
+            
+        }
+    }
+    .cate-container:hover img{
+        transform: scale(1.25);
+    }
+}

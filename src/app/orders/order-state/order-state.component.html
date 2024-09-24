@@ -1,0 +1,53 @@
+<div class="bg-white d-flex flex-column gap-3 order-state " *ngIf="!loading && !noContent" >
+    <div class="order-details  rounded-3 border border-1 d-flex flex-column gap-3" *ngFor="let item of orders; let i = index">
+        <div class="order-header d-flex justify-content-between align-items-center gap-3">
+            <h4>
+                {{'number of reservation' | translate}}#{{item?.id}}
+            </h4>
+            <span>
+                {{item?.date_added | date}}
+            </span>
+        </div>
+        <div class="order-facility d-flex justify-content-between align-items-center">
+            <a [routerLink]="['/facility/details/' , item.facility_id ]" class="text-body">
+                <h6>
+                    {{item?.user_name}}
+                </h6>
+            </a>
+            <span style="cursor: pointer; color: #000000b5;" (click)="goToMaps(item)">
+                <i class="fa-solid fa-location-dot"> </i>
+                {{decimalPipe.transform(item?.distance , '1.2-2')}}KM
+            </span>
+        </div>
+        <div class="order-footer d-flex justify-content-between align-items-center">
+            <h6>
+                {{'quantity' | translate}} : {{item?.total_quantity}}
+            </h6>
+            <span>
+                {{'total price' | translate}} : {{item?.total_price | currency}}
+            </span>
+        </div>
+        <div class="order-action d-flex justify-content-between align-items-center">
+            <p-button label="{{'details' | translate}}" [outlined]="true" severity="secondary"  (click)="getOrderDetails(item?.id)"/>
+            <p-button label="{{'reserve again' | translate}}" [outlined]="true" severity="success" *ngIf="state !== 'Processing'" (click)="reserveAgain(item.id , item.total_quantity)"/>
+            <p-button *ngIf="state == 'Processing'" label="{{'cancel' |translate}}" [outlined]="true" severity="danger" (onClick)="ChangeStatus(item.id , state , i)"/>
+            <span *ngIf="state == 'Received'" class="main-color">
+                {{'Received' | translate}}
+            </span>
+            <span *ngIf="state == 'Canceled'" class="text-danger">
+                {{'Canceled' | translate}}
+            </span>
+        </div>
+        <div class="postion-relative">
+        </div>
+    </div>  
+</div>
+<div *ngIf="noContent && !loading">
+    <p class="fs-3 main-color">
+        no orders !!!
+    </p>
+</div>
+<p-toast ></p-toast>
+<div class="position-relative mt-5">
+    <ngx-spinner bdColor = "#fff" size = "default" color = "#80b127" type = "ball-clip-rotate" [fullScreen] = "false"></ngx-spinner>
+</div>

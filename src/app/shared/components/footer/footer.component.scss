@@ -1,0 +1,33 @@
+footer{
+    overflow: hidden;
+    background-color: var(--main-color);
+    margin-top: 100px;
+    .footer-link{
+        color: inherit;
+        span{
+            position: relative;
+        }
+    }
+    .curve-img{
+        top: 5px;
+        @media screen and (max-width:577px) {
+            transform: scaleX(1.5);
+        }
+    }
+    .footer-link span::after{
+        content: '';
+        transition: 0.5s all; 
+        position: absolute;
+        width: 0%;
+        height: 2px;
+        bottom: 0px;
+        right:0 ;
+        background-color: var(--main-color);
+    }
+    .footer-link span:hover::after{
+        width: 100%;
+    }
+    a span , .contact-list span{
+        font-weight: 600;
+    }
+}

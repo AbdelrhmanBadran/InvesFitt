@@ -1,0 +1,38 @@
+.home-search{
+    padding: 60px;
+    h1{
+        padding-bottom: 20px;
+    }
+    p{
+        padding-bottom: 10px;
+    }
+    .home-search-container{
+        padding:80px 48px;
+        @media only screen and (max-width: 577px) {
+            padding: 20px;
+        }
+        background-color: #80B12733;
+        input::placeholder{
+            padding-right: 10px;
+        }
+        .glass-icon{
+            top: 0;
+            transform: translateY(25%);
+            right: 5px;
+            i{
+                color: #777 ;
+            }
+        }
+    }
+    @media only screen and (max-width: 577px) {
+        padding: 0px;
+        h1{
+            font-size: 26px;
+            padding-bottom: 10px;
+        }
+        p{
+            font-size: 14px;
+            padding-bottom: 10px;
+        }
+    }
+}

@@ -1,0 +1,74 @@
+.order-state{
+    padding: 0 20px;
+    .order-details{
+        padding: 20px;
+        .order-header , .order-facility , .order-footer{
+            font-size: 14px;
+        }
+    }
+    @media screen and (max-width:577px) {
+        padding: 0 5px;
+        .order-details{
+            padding: 5px;
+        }
+        .order-header , .order-facility , .order-footer{
+            font-size: 14px;
+        }
+    }
+::ng-deep{
+    font-family: 'themify22' ,sans-serif !important;
+    .p-tabview-panels{
+        background-color: transparent;
+    }
+    .p-tabview-nav-content{
+        ul{
+            border: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: transparent;
+            font-family: "themify22", sans-serif;
+            @media screen and (max-width: 577px) {
+                padding-left: 0;
+            }
+        }
+        li a{
+            border: none;
+            border: 1px solid #CDCDCD;
+            border-radius: 10px;
+            transition: 0.3s all ease-out;
+            margin: 0 5px;
+            color: #7A7A7A;
+            font-weight: 700;
+            @media screen and (max-width: 577px) {
+                padding: 10px;
+            }
+        }
+        li a:hover{
+            background: #80B127;
+            color: #fff;                
+        }
+        .p-highlight a{
+            background: #80B127;
+            color: #fff;
+        }
+
+    }
+}
+.order-details{
+    span{
+        color: #9B9B9B;
+    }
+}
+}
+::ng-deep{
+    .p-button{
+        border-radius: 5px;
+        padding: 0.25rem 0.75rem;
+    }
+    .p-button.p-button-success.p-button-outlined, .p-button-group.p-button-success > .p-button.p-button-outlined, .p-splitbutton.p-button-success > .p-button.p-button-outlined {
+        background-color: transparent;
+        color: #80B127;
+        border: 1px solid;
+    }
+}

@@ -1,0 +1,34 @@
+// @import '../../../styles.scss';
+$myColor:#80B127;
+.about{
+    padding: 100px 0;
+    h2{
+        padding: 0 10px;
+    }
+    .about-text{
+        padding: 10px;
+        h3{
+            padding-block: 10px;
+            font-size: 30px;
+        }
+        p{
+            font-size:16px ;
+        }
+    }
+    .about-col{
+        padding:  20px;
+        p{
+            color: #7A7A7A;
+            font-weight: 400;
+        }
+    }
+    .about-col::before{
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 10px;
+        background-color: $myColor;
+        width: 2px;
+        height: 100%;
+    }
+}

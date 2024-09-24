@@ -1,0 +1,46 @@
+<!-- <app-header></app-header> -->
+<section class="search">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumbb position-relative"  style="z-index: 12;">
+                    <h2 class="position-relative" style="z-index: 12;">{{'Search' | translate}}</h2>
+                    <img class="position-absolute top-0 start-0 w-100 h-100 " src="assets/images/orderBreadcrumb.png" alt="orderBreadcrumb">
+                    <div class="position-relative" style="z-index: 12;">
+                        <a routerLink="/" class="main-breadcrumb text-white">{{'Main' | translate}}</a>
+                        <span class="mx-2">></span>
+                        <span>{{'Search' | translate}}</span>   
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div>
+                    <p-iconField iconPosition="left" class="input-container">
+                        <p-inputIcon styleClass="pi pi-search" />
+                        <input type="text" pInputText placeholder="Search" [(ngModel)]="searchTerm" (keyup)="getNearbyPosts(searchTerm)" />
+                    </p-iconField>
+                </div>
+                <div class="position-relative mt-5" *ngIf="!dataDone">
+                    <ngx-spinner bdColor = "#fff" size = "default" color = "#80b127" type = "ball-clip-rotate" [fullScreen] = "false"></ngx-spinner>
+                </div>
+                <div class="search-result p-2" *ngIf="!noData && !dataNone">
+                    <app-search-data [posts]="posts" *ngIf="dataDone"></app-search-data>
+                </div>
+                <div class="no-data d-flex justify-content-center align-items-center flex-column gap-2 mt-3" *ngIf="noData && !dataNone">
+                    <img src="assets/images/Question.png" width="30px" height="30px" alt="question-mark">
+                    <p>
+                        {{'لا يوجد منتج متوفر فى المنشات القريبة بهذا الاسم' | translate}}
+                    </p>
+                    <button (click)="tellMe()" class="tell-me">
+                        {{'أخبرني في حال توفر المنتج' | translate}}
+                    </button>
+                    <button (click)="showLastSearch()" class="last-search">
+                        {{'عرض نتائج البحث السابقة' | translate}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- <app-footer></app-footer> -->
+<p-toast></p-toast>

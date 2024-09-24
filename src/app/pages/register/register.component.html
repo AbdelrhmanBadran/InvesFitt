@@ -1,0 +1,60 @@
+<div class="container h-100">
+    <div class="row h-100">
+        <div class="col-12">
+            <div class="icons d-flex justify-content-between px-2">
+                <a [routerLink]="'/'">
+                    <i class="fa-solid fa-house"></i>
+                </a>
+                <a [routerLink]="'/pages'">
+                    <i *ngIf="common.lang_code == 'ar'" class="fa-solid fa-arrow-left"></i>
+                    <i *ngIf="common.lang_code == 'en'" class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-12">   
+            <form [formGroup]="registerForm" (ngSubmit)="regsiter(registerForm)" class="form">
+                <div class="d-flex justify-content-start align-items-start flex-column gap-3 register">
+                    <h1>{{'Sign Up' | translate}} , </h1>
+                    <h3>{{'Create new account' | translate}}</h3>
+                    <p class="text-danger text-center" *ngIf="allErrors">{{'All Inputs are required' |translate}}</p>            
+                    <label for="name">{{'Full Name' | translate}}</label>
+                    <input type="text"  class="form-control" id="name" placeholder="{{'Enter your full name' | translate}}" formControlName="full_name" [class]="(registerForm.get('full_name')?.dirty && registerForm.get('full_name')?.getError('required')) || (registerForm.get('full_name')?.dirty && registerForm.get('full_name')?.getError('minlength')) ? 'border border-danger border-2' : ''">
+
+                    <span style="color:red" *ngIf="registerForm.get('full_name')?.dirty && registerForm.get('full_name')?.getError('required')">{{'Full name is required' |translate }}</span>
+                    <span style="color:red" *ngIf="registerForm.get('full_name')?.dirty && registerForm.get('full_name')?.getError('minlength') && registerForm.get('full_name')?.errors">{{'min length is 4' | translate }}</span>
+                    <label for="email">{{'email' | translate}}</label>
+
+                    <input type="email" readonly  class="form-control" id="email" placeholder="{{'Enter your email' | translate}}" formControlName="email" [class]="(registerForm.get('email')?.dirty && registerForm.get('email')?.getError('required')) || (registerForm.get('email')?.dirty && registerForm.get('email')?.getError('pattern')) ? 'border border-danger border-2' : ''">
+
+                    <span style="color:red" *ngIf="registerForm.get('email')?.dirty && registerForm.get('email')?.getError('required')">{{'Email is required' |translate }}</span>
+                    <span style="color:red" *ngIf="registerForm.get('email')?.dirty && registerForm.get('email')?.getError('pattern')">{{'Enter valid email' | translate  }}</span>
+
+                    <div class="w-100">
+                        <label for="">{{'phone' | translate}}</label>
+                        <br>
+                        <div class="d-flex justify-content-between align-items-center w-100 flex-wrap gap-1">
+                            <input type="text" pInputText class="phone-input"  placeholder="{{'phone placeholder' | translate}}" formControlName="mobile" [class]="(registerForm.get('mobile')?.dirty && registerForm.get('mobile')?.getError('required')) ||(registerForm.get('mobile')?.dirty && registerForm.get('mobile')?.getError('pattern')) ? 'border border-danger border-2' : ''" />
+
+                            <p-dropdown [options]="countryCodes" formControlName="dial_code"></p-dropdown>
+                        </div>
+                        
+                        <span style="color:red" *ngIf="registerForm.get('mobile')?.dirty && registerForm.get('mobile')?.getError('required')">{{'phone is required' |translate }}</span>
+
+                        <span style="color:red" *ngIf="registerForm.get('mobile')?.dirty && registerForm.get('mobile')?.getError('pattern')">{{'numbers only' |translate }}</span>
+                    </div>
+                    <div class="w-100 password-input">
+                        <label for="password">{{'password' | translate}}</label>
+                        <br>
+                        <p-password id="password" class="w-100" [feedback]="false" [toggleMask]="true" formControlName="password"></p-password>
+                        <span style="color:red" *ngIf="registerForm.get('password')?.dirty && registerForm.get('password')?.getError('required')">{{'password is required' |translate }}</span>
+                        <br>
+                        <span style="color:red" *ngIf="registerForm.get('password')?.dirty && registerForm.get('password')?.getError('minlength') && registerForm.get('password')?.errors">{{'min length is 6' | translate }}</span>
+                    </div>
+                    <button class="btn bg-main text-white w-100 next-btn">{{'log In' | translate}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+

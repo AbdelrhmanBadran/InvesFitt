@@ -1,0 +1,19 @@
+<div class="lang-data h-100">
+    <div class="container h-100">
+        <div class="row h-100">
+                <div class="col-12">
+                    <div class="card py-3 border-0">
+                        <div>
+                            <p-listbox [options]="codes"   [(ngModel)]="selectedLang" 
+                            optionLabel="name"  [listStyle]="{'max-height': '500px'}" class="lang-arrow"></p-listbox>
+                        </div>
+                        <div class="mt-3">
+                            <button (click)="changeLanguage()" class="btn bg-main text-white w-50 d-block mx-auto">
+                                {{'Save'|translate}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>

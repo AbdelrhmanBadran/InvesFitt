@@ -1,0 +1,154 @@
+<div class="post my-4" *ngFor="let post of posts; let i = index">
+    <div class="post-image d-flex justify-content-center"  *ngIf="post.type == 'post'">
+        <!-- <img (click)="showDialog(i)" [src]="postImageBaseurl+post.attachment"   (error)="common.handleImage($event)"   alt="post" style="cursor: pointer;"> -->
+        <!-- <p-dialog [modal]="true" [(visible)]="visible[i]" [style]="{ width: '80%' , height:'80vh' }">
+            <div class="d-flex justify-content-center align-items-center h-100">
+                <img [src]="postImageBaseurl+post.attachment"   (error)="common.handleImage($event)"  style="max-height: -webkit-fill-available;" alt="post">
+            </div>
+        </p-dialog> -->
+        <p-image 
+            [src]="postImageBaseurl+post.attachment" 
+            (onImageError)="common.handleImage($event)"
+            [preview]="true" 
+            alt="Image">
+                <ng-template pTemplate="indicator">
+                    <i class="pi pi-check"></i>
+                </ng-template>
+        </p-image>
+    </div>
+    <div class="post-image d-flex justify-content-center align-items-center"  *ngIf="post.type == 'image'">
+        <!-- <img (click)="showDialog(i)" [src]="postImageBaseurl+post.attachment"  (error)="common.handleImage($event)" alt="post" style="cursor: pointer;">
+        <p-dialog [modal]="true" [(visible)]="visible[i]" [style]="{ width: '80%' , height:'80vh' }">
+            <img [src]="postImageBaseurl+post.attachment"  (error)="common.handleImage($event)" alt="post" style="max-height: -webkit-fill-available;">
+        </p-dialog> -->
+        <p-image 
+            (onImageError)="common.handleImage($event)"
+            [src]="postImageBaseurl+post.attachment" 
+            [preview]="true" 
+            alt="Image">
+                <ng-template pTemplate="indicator">
+                    <i class="pi pi-check"></i>
+                </ng-template>
+        </p-image>
+    </div>
+    <div class="post-video d-flex justify-content-center" *ngIf="post.type == 'video'">
+        <video controls *ngIf="post.type == 'video'" >
+            <source [src]="postImageBaseurl+post.attachment"  type="video/mp4">
+        </video>
+    </div>
+    <a [routerLink]="['/facility/post/' , post.id]">
+        <div class="details p-2">
+            <div class="d-flex justify-content-between align-items-center">
+                <span>{{post.product_name}}</span>
+            <span>{{post.date_added | date:'dd/MM/yyyy'}}</span>
+        </div>
+        </div>
+        <div class="description p-2">
+            <div class="d-flex justify-content-between align-items-center">
+                <span [innerHTML]="post.description"></span>
+            </div>
+        </div>
+        <div class="price p-2" *ngIf="post.avilability || post.price ">
+            <div class="d-flex justify-content-between align-items-center" *ngIf="post.type == 'post'">
+                <span style="color: #DB3022;">{{post.price | currency}}</span>
+                <span *ngIf="post.avilability == 'Available'" style="color: #80B127;">{{'In Stock' | translate}}</span>
+                <span *ngIf="post.avilability == 'Not Available'" class="text-danger">{{'Out stock' | translate}}</span>
+            </div>
+        </div>
+    </a>
+    <div class="post-reactions p-2">
+        <mat-list>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+                <div class="d-flex justify-content-start align-items-center gap-4 reactions-count">
+                    <span 
+                        class="d-flex align-items-center" 
+                        style="color: #7A7A7A;"
+                        [pTooltip]="tooltipContent"
+                        tooltipPosition="bottom" 
+                        [tooltipOptions]="tooltipOptions" 
+                        >
+                        <span class="mx-1">
+                            {{noOfLikesPost[i]}}
+                        </span>
+                        <span>
+                            {{'likes' | translate}}
+                        </span>
+                        <ng-template #tooltipContent>
+                            <div class="flex align-items-center">
+                                <span> <b>PrimeNG</b> rocks! </span>
+                            </div>
+                        </ng-template>
+                    </span>
+                    <span class="d-flex align-items-center" style="color: #7A7A7A;">
+                        <span class="mx-1">
+                            {{post.statistics.commentCount}}
+                        </span>
+                        <span>
+                            {{'comments' | translate}}
+                        </span>
+                    </span>
+                    <span *ngIf="post.type == 'video'" class="d-flex align-items-center" style="color: #7A7A7A;" >
+                        <span class="mx-1">
+                            0
+                        </span>
+                        <span>
+                            {{'Views' | translate}}
+                        </span>
+                    </span>
+                </div>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+                <div class="d-flex align-items-center justify-content-between reaction-btn">
+                    <button class="d-flex align-items-center" style="color: #7A7A7A;" (click)="likePost(post.id , post.type ,i )">
+                        <span>
+                            <i class="fa-solid fa-thumbs-up mx-1" [class]=" postslike[i] ? 'text-like ' : ''"></i>
+                        </span>
+                        <span>
+                            {{'like' | translate}}
+                        </span>
+                    </button>
+                    <button class="d-flex align-items-center" style="color: #7A7A7A;" (click)="goToPostDetails(post.id)">
+                        <i class="fa-solid fa-message mx-1"></i>
+                        <span>
+                            {{'comment' | translate}}
+                        </span>
+                    </button>
+                    <button class="d-flex align-items-center" style="color: #7A7A7A;" *ngIf="post.type == 'post' && post.avilability =='Available'" (click)="addToCart(post.id , post?.page_acc_id , '1' , i)">
+                        <span>
+                            <i class="fa-solid fa-cart-shopping mx-1" [class]=" isInCart[i] == '1' ? 'main-color' : ''"></i>
+                        </span>
+                        <span>
+                            {{'reserve' | translate}}
+                        </span>
+                    </button>
+                    <!-- <button class="d-flex align-items-center" style="color: #7A7A7A;" *ngIf="(!ownFacility || userMode) && post.type == 'post'">
+                        <span>
+                            <i class="fa-solid fa-share mx-1"></i>
+                        </span>
+                        <span>
+                            {{'share' | translate}}
+                        </span>
+                    </button> -->
+                    <button mat-icon-button class="" [matMenuTriggerFor]="menu" style="color: #7A7A7A;margin: 0 25px 0 25px;">
+                        <i class="fa-solid fa-ellipsis mx-1"></i>
+                        <span>{{'More' | translate}}</span>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item *ngIf="(!ownFacility || userMode)">
+                            <span>{{'Report' | translate}}</span>
+                        </button>
+                        <button mat-menu-item (click)="openDialog(post.type , post , 'edit')" *ngIf="!(!ownFacility || userMode)">
+                            <span>{{'edit' | translate}}</span>
+                        </button>
+                        <button mat-menu-item *ngIf="!(!ownFacility || userMode)">
+                            <span style="color: #DB3022;">{{'delete' | translate}}</span>
+                        </button>
+                    </mat-menu>
+                </div>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+        </mat-list>
+    </div>
+</div>

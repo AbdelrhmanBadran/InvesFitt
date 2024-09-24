@@ -1,0 +1,41 @@
+<section class="img-data">
+    <div class="container-fluid">
+        <form [formGroup]="ImageForm" (ngSubmit)="addImage(ImageForm)">
+            <div class="row gy-3">
+                <div class="col-12">
+                    <div class="d-flex justify-content-center" *ngIf="allErrors">
+                        <span style="color:red">{{'All Inputs are required' |translate }}</span>
+                    </div>
+                    <div class="product-image overflow-hidden">
+                        <label for="productImage" class="position-absolute top-0 start-0 w-100 h-100" style="cursor: pointer;z-index: 12;">
+                            <div>
+                                <input type="file" class="d-none" id="productImage" (change)="uploadImage($event)" accept="image/*">
+                                <img src="assets/images/Subtract.png" alt="Subtract" class="substract-img">
+                                <img src="assets/images/dialogImage.png" alt="dialogImage" class="dialog-image">
+                            </div>
+                            <div class="position-relative w-100 h-100" *ngIf="imgOn">
+                                <img [src]="producImg" class="producImg" alt="producImg" (error)="common.handleImage($event)">
+                            </div>
+                        </label>
+                    </div>
+                </div>
+    
+                <div class="col-12">
+                    <div class="d-flex flex-column gap-1">
+                        <label for="description">
+                            {{'Description' | translate}}
+                        </label>
+                        <textarea rows="5" cols="30" pInputTextarea formControlName="description" [innerHTML]="this.postDetails?.description">
+                        </textarea>
+                        <span style="color:red" *ngIf="ImageForm.get('description')?.dirty && ImageForm.get('description')?.getError('required')">{{'description is required' |translate }}</span>
+                    </div>
+                </div>
+                <div class="col-12 mt-2">
+                    <button type="submit"  class="btn bg-main text-white" style="font-family: 'themify22' , sans-serif;">{{'Save' |translate}}</button>
+                        <button type="button" (click)="closeDialog()" class="btn btn-outline-danger mx-2" style="font-family: 'themify22' , sans-serif;">{{'cancel' |translate}}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <p-toast></p-toast>
+</section>

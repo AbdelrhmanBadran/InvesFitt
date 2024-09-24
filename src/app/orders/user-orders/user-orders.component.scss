@@ -1,0 +1,71 @@
+.orders{
+    .breadcrumbb{
+        margin: 30px 0;
+        padding: 50px 40px;
+        background-color: #80B127;
+        color: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        @media screen and (max-width: 577px) {
+            margin: 10px 0;
+            padding: 20px;
+        }
+        img{
+            opacity: 10%;
+            transform: scale(1.1, 3.5);
+        }
+        .main-breadcrumb{
+            font-size: 20px;   
+        }
+    }
+
+    ::ng-deep{
+        .p-card-content{
+            font-family: 'themify22' ,sans-serif !important;
+        }
+        .p-tabview-panels{
+            background-color: transparent;
+            @media screen and (max-width: 577px) {
+                padding: 0;
+            }
+        }
+        .p-tabview-nav-content{
+            ul{
+                border: none;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: transparent;
+                font-family: "themify22", sans-serif;
+                @media screen and (max-width: 577px) {
+                    padding-left: 0;
+                }
+            }
+            li a{
+                border: none;
+                border: 1px solid #CDCDCD;
+                border-radius: 10px;
+                transition: 0.3s all ease-out;
+                margin: 0 5px;
+                color: #7A7A7A;
+                font-weight: 700;
+                @media screen and (max-width: 577px) {
+                    padding: 10px;
+                }
+            }
+            li a:hover{
+                background: #80B127;
+                color: #fff;                
+            }
+            .p-highlight a{
+                background: #80B127;
+                color: #fff;
+            }
+
+        }
+        .p-toast .p-toast-message .p-toast-message-content .p-toast-detail{
+            font-family: 'themify22' , sans-serif;
+            margin: 0.3rem 0.5rem;
+        }
+    }
+}

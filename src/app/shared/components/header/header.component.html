@@ -1,0 +1,304 @@
+<header class="bg-main">
+  <div class="desktop-layer">
+    <nav class="nav">
+      <div class="container-fluid">
+        <div class="row h-100 align-items-center">
+          
+          <div class=" col-md-7 nav-right">
+            <ul class="mb-2  d-flex justify-content-start">
+              
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center" routerLink="/">
+                  <i class="fa-solid fa-house"></i>
+                  <span class="mx-2">
+                    {{'home' | translate}}
+                  </span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center" routerLink="/orders">
+                  <i class="fa-solid fa-lock"></i>
+                  <span class="mx-2">
+                    {{'orders' | translate}}
+                  </span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center cursor" (click)="showSoonMessage()">
+                  <i class="fa-solid fa-bell"></i>        
+                  <span class="mx-2">
+                    {{'notifications' | translate}}
+                  </span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center cursor" (click)="showSoonMessage()">
+                  <i class="fa-solid fa-exclamation"></i>
+                  <span class="mx-2">
+                    {{'AboutUS' | translate}}
+                  </span>
+                </a>
+              </li>
+              
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center cursor" (click)="showSoonMessage()">
+                  <i class="fa-solid fa-shield-halved"></i>
+                  <span class="mx-2">
+                    {{'privacy policy' | translate}}
+                  </span>
+                </a>
+              </li>
+      
+              
+              
+            </ul>
+          </div>
+          <div class="col-md-5 nav-left">
+            <div class="d-flex justify-content-start">
+              <div>
+                <button  class="position-relative btn" (click)="changeLanguage(langCode)">
+                  <i class="fa-solid fa-earth-americas"></i>
+                  <span class="position-absolute earth-number translate-middle badge">
+                    {{currentLang | translate}}
+                  </span>
+                </button>
+              </div>
+              <div class="">
+                <a [routerLink]="['/orders/cart']" class="position-relative ">
+                  <i class="fa-solid fa-shopping-cart"></i>
+                  <span class="position-absolute cart-number translate-middle badge rounded-pill bg-danger">
+                    {{cartNum}}
+                    <span class="visually-hidden">unread messages</span>
+                  </span>
+                </a>
+              </div>
+              <div>
+                <a [routerLink]="['/pages']" class="text-white"  *ngIf="!userLogged">{{'log In' | translate}}</a>
+                
+                <span *ngIf="userLogged">
+                  <p-button [link]="true"  (click)="op.toggle($event);  toggleLayer()" [style]="{'box-shadow' :'none' , 'border':'none' , 'padding' : '0px'}">
+                    <div>
+                      <p-avatar [image]="userData?.img ? headerImg : userImg" alt="user-img"  [style]="{ 'border-radius': '20px' , 'overflow' : 'hidden' , 'width' : '50px' , 'height' : '50px' , 'border' : '3px solid #fff' }" size="large"></p-avatar>
+                      <div class="d-flex flex-column user-name">
+                        <span class="mx-2" style="font-size:  12px; font-weight: 700;">
+                          {{'welcome' | translate}}
+                        </span>
+                        <span>
+                          {{userName}}
+                        </span>
+                      </div>
+                      <span class="me-3 arrow-down">
+                        <i class="fa-solid fa-angle-down"></i>
+                      </span>
+                    </div>
+                  </p-button>
+                  <p-overlayPanel #op>
+                    <div class="overlay-desktop">
+                      <div style="width: 300px;" class="header d-flex justify-content-between">
+                        <span>
+                          {{'Choose User' | translate}}
+                        </span>
+                        <p-button (click)="op.toggle($event); toggleLayer()" [link]="true" [style]="{'color' :'#7A7A7A'}">
+                          <i class="fa-solid fa-x"></i>
+                        </p-button>
+                      </div>
+                      <div class="accounts mt-3" style="width: 300px; height: 50px;" *ngFor="let account of allAccounts">
+                        <button  class="d-flex justify-content-between align-items-center change-btn h-100" (click)="changeProfileMode(account)">
+                          <div class="d-flex align-items-center h-100">
+                            <div class="rounded-4 border border-4  overflow-hidden position-relative" style="width: 50px; height:50px ;" [style.borderColor]="profileMode == account.page_type ? 'var(--main-color) !important' : '#CDCDCD !important'" >
+                              <img [src]="account?.img ? account.fullImg  : userImg" class="account-img"  alt="user-img" (error)="handleImage($event)" >
+                            </div>
+                            <span class="text-dark mx-2">
+                              {{account.user_name}}
+                            </span>
+                          </div>
+                          <span [style.display]="profileMode == account.page_type ? 'inline !important' : 'none !important'">
+                            <i class="fa-solid fa-check main-color" ></i>
+                          </span>
+                        </button>
+  
+                      </div>
+                      <hr>
+                      <div class="my-2 panel-footer">
+                        <div class="d-flex flex-column align-items-start gap-2">
+                          <button class="btn btn-outline-light text-start text-dark border-0 " (click)="op.toggle($event);toggleLayer();goToAccount()">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            {{'edit' | translate}} {{'Profile Data' | translate}}
+                          </button>
+                          <button class="btn btn-outline-light text-start text-dark border-0" (click)="confirm1($event)">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            {{'log out' | translate}}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </p-overlayPanel>
+                </span>
+              </div>
+              <div class="">
+                <a [routerLink]="['/home/search']" class="d-flex align-items-center justify-content-center">
+                  <i class="fa-solid fa-search"></i>  
+                <span class="me-2 mb-1 fw-bold search-text" >
+                  {{'search' | translate}}
+                </span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+  <div class="mobile-layer">
+    <div class="container-fluid">
+      <div class="row align-items-center pt-2">
+        <div class="col-2">
+          <div class="d-flex align-items-center sideBar">
+            <p-button (click)="sidebarVisible = true ; " [link]="true" [style]="{ 'border':'none' , 'padding':'4px'}" >
+              <i class="fa-solid fa-bars-staggered text-white"></i>
+            </p-button>
+            <p-sidebar #sidebarRef [(visible)]="sidebarVisible">
+              <ng-template pTemplate="headless">
+                  <div class="d-flex flex-column h-100 justify-content-between align-items-start">
+                      <div class="w-100">
+                        <div class="d-flex align-items-center justify-content-between px-4 pt-3 flex-shrink-0">
+                          <span class="inline-flex align-items-center gap-2 text-dark">
+                              {{'Back' | translate}}
+                          </span>
+                          <span>
+                              <p-button [link]="true"  type="button" (click)="closeCallback($event)" [style]="{'border':'none'}"  styleClass="h-2rem w-2rem">
+                                <i *ngIf="common.lang_code == 'ar'" class="fa-solid fa-arrow-left"></i>
+                                <i *ngIf="common.lang_code == 'en'" class="fa-solid fa-arrow-right"></i>
+                              </p-button>
+                          </span>
+                      </div>
+                      <div class="">
+                          <a class="nav-link d-flex align-items-center" routerLink="/">
+                            <i class="fa-solid fa-house"></i>
+                            <span class="mx-2">
+                              {{'home' | translate}}
+                            </span>
+                          </a>
+                          <a class="nav-link d-flex align-items-center" routerLink="/orders">
+                            <i class="fa-solid fa-lock"></i>
+                            <span class="mx-2">
+                              {{'orders' | translate}}
+                            </span>
+                          </a>
+                          <a class="nav-link d-flex align-items-center cursor" (click)="showSoonMessage()">
+                            <i class="fa-solid fa-bell"></i>        
+                            <span class="mx-2">
+                              {{'notifications' | translate}}
+                            </span>
+                          </a>
+                          <a class="nav-link d-flex align-items-center cursor" (click)="showSoonMessage()">
+                            <i class="fa-solid fa-exclamation"></i>
+                            <span class="mx-2">
+                              {{'AboutUS' | translate}}
+                            </span>
+                          </a>
+                        
+                          <a class="nav-link d-flex align-items-center cursor" (click)="showSoonMessage()">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <span class="mx-2">
+                              {{'privacy policy' | translate}}
+                            </span>
+                          </a>
+                          <a [routerLink]="['/pages']" class="nav-link"  *ngIf="!userLogged">
+                            <i class="fa-solid fa-right-to-bracket"></i>
+                            <span>
+                              {{'log In' | translate}}
+                            </span>
+                          </a>
+                          <div class="d-flex flex-column align-items-start" *ngIf="userLogged">
+                            <button class="btn btn-outline-light text-start text-dark border-0" (click)="goToAccount()">
+                              <i class="fa-solid fa-pen-to-square"></i>
+                              {{'edit' | translate}} {{'Profile Data' | translate}}
+                            </button>
+                            <button class="btn btn-outline-light text-start text-dark border-0" (click)="confirm2($event)">
+                              <i class="fa-solid fa-right-from-bracket"></i>
+                              {{'log out' | translate}}
+                            </button>
+                          </div>
+                      </div>
+                      </div>
+                      <div class="w-100 mx-3 mb-3" *ngIf="userLogged">
+                        
+                        <p-button (click)="opmob.toggle($event);" [style]="{'background-color' : 'transparent' , 'border' : 'none'}">
+                            <div class="d-flex align-items-center cursor-pointer gap-2 border-round">
+                              <p-avatar  [style]="{ 'border-radius': '20px' , 'overflow' : 'hidden' , 'width' : '50px' , 'height' : '50px' , 'border' : '3px solid #fff' }" size="large">
+                                <img [src]="userData?.img ? headerImg : userImg" alt="user-img" (error)="handleImage($event)">
+                              </p-avatar>
+                                <span class="font-bold text-dark">{{userName}}</span>
+                            </div>
+                          </p-button>
+                          <p-overlayPanel #opmob>
+                            <div >
+                              <div style="width: 300px;" class="header d-flex justify-content-between">
+                                <span>
+                                  {{'Choose User' | translate}}
+                                </span>
+                                <p-button (click)="opmob.toggle($event);" [link]="true" [style]="{'color' :'#7A7A7A' , 'border':'none'}" >
+                                  <i class="fa-solid fa-x"></i>
+                                </p-button>
+                              </div>
+                              <div class="accounts mt-3" style="width: 300px; height: 55px;" *ngFor="let account of allAccounts">
+                                <button  class="d-flex justify-content-between align-items-center change-btn h-100" (click)="changeProfileMode(account)">
+                                  <div class="d-flex align-items-center">
+                                    <div class="rounded-4 border border-4  overflow-hidden position-relative d-flex justify-content-center align-items-center" style="width: 50px;height: 50px;" [style.borderColor]="profileMode == account.page_type ? 'var(--main-color) !important' : '#CDCDCD !important'" >
+                                      <img [src]="account?.img ? account.fullImg  : userImg" class="account-img"  alt="user-img" (error)="handleImage($event)" >
+                                    </div>
+                                    <span class="text-dark mx-2">
+                                      {{account.user_name}}
+                                    </span>
+                                  </div>
+                                  <span [style.display]="profileMode == account.page_type ? 'inline !important' : 'none !important'">
+                                    <i class="fa-solid fa-check main-color" ></i>
+                                  </span>
+                                </button>
+                              </div>
+                            </div>
+                          </p-overlayPanel>
+                        </div>
+                  </div>
+              </ng-template>
+          </p-sidebar>
+          <!-- <p-button (click)="sidebarVisible = true" icon="pi pi-arrow-right"></p-button> -->
+          </div>
+        </div>
+        <div class="col-10">
+          <div class=" d-flex justify-content-end nav-left align-items-center">
+            <div class="ms-3">
+              <button (click)="changeLanguage(langCode)" class="position-relative btn">
+                <i class="fa-solid fa-earth-americas"></i>
+                <span class="position-absolute earth-number translate-middle badge">
+                  {{currentLang | translate}}
+                </span>
+              </button>
+            </div>
+            <div class="">
+              <a [routerLink]="['/orders/cart']" class="position-relative ">
+                <i class="fa-solid fa-shopping-cart"></i>
+                <span class="position-absolute cart-number translate-middle badge rounded-pill bg-danger">
+                  {{cartNum}}
+                  <span class="visually-hidden">unread messages</span>
+                </span>
+              </a>
+            </div>
+
+            <div class="">
+              <a [routerLink]="['/home/search']" class="d-flex align-items-center justify-content-center">
+                <i class="fa-solid fa-search"></i>  
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- <div (click)=" toggleLayer()" class="layer position-fixed top-0 start-0 end-0 bottom-0 bg-opacity-25 bg-dark" [class]="common.layerOn ? 'd-block' : 'd-none'" style="z-index: 13;">
+</div> -->
+<p-confirmDialog class="header-confirm" />
+<p-toast></p-toast>

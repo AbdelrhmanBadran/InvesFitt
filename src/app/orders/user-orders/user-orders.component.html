@@ -1,0 +1,33 @@
+<!-- <app-header></app-header> -->
+<section class="orders">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumbb position-relative"  style="z-index: 12;">
+                    <h2 class="position-relative" style="z-index: 12;">{{'Reservations' | translate}}</h2>
+                    <img class="position-absolute top-0 start-0 w-100 h-100 " src="assets/images/orderBreadcrumb.png" alt="orderBreadcrumb">
+                    <div class="position-relative d-flex" style="z-index: 12;">
+                        <a routerLink="/orders/Allorders" class="text-white">
+                            <h5>
+                                {{'orders' | translate}}
+                            </h5>
+                        </a>
+                        <span class="mx-2">></span>
+                        <h6>{{breadCrumbItem | translate}}</h6>   
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 pt-3 bg-white rounded-3">
+                <div  class="position-relative" style="z-index: 12;">
+                    <p-tabView (onChange)="onTabChange($event)" [activeIndex]="1">
+                        <p-tabPanel  *ngFor="let state of states ; let i = index" header="{{ state | translate}}">
+                            <app-order-state *ngIf="statesOn[i]" [state]="state" ></app-order-state>
+                        </p-tabPanel>
+                    </p-tabView>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</section>
+<!-- <app-footer></app-footer> -->

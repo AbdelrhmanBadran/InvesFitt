@@ -1,0 +1,45 @@
+<p-toast></p-toast>            
+<div class="container h-100">
+    <div class="row h-100">
+        <div class="col-12">
+            <div class="icons d-flex justify-content-between px-2">
+                <a [routerLink]="'/'">
+                    <i class="fa-solid fa-house"></i>
+                </a>
+                <a [routerLink]="'/pages/auth/main'">
+                    <i *ngIf="common.lang_code == 'ar'" class="fa-solid fa-arrow-left"></i>
+                    <i *ngIf="common.lang_code == 'en'" class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-12">   
+            <form [formGroup]="loginForm" (ngSubmit)="login(loginForm)">
+                <div class="d-flex justify-content-start align-items-start flex-column gap-3 login">
+                    <h1>{{'log In' | translate}} , </h1>
+                    <h3>{{'You already have account' | translate}}</h3>
+                    <label for="email">{{'email' | translate}}</label>
+                    <input type="email"  class="form-control" readonly id="email" placeholder="{{'Enter your email' | translate}}" formControlName="email" [class]="(loginForm.get('email')?.dirty && loginForm.get('email')?.getError('required')) || (loginForm.get('email')?.dirty && loginForm.get('email')?.getError('pattern')) ? 'border border-danger border-2' : ''">
+                    <span style="color:red" *ngIf="loginForm.dirty && loginForm.get('email')?.getError('required')">{{'Enter your email' |translate }}</span>
+                    <span style="color:red" *ngIf="loginForm.dirty && loginForm.get('email')?.getError('pattern') && loginForm.get('email')?.errors">{{'Enter valid email' | translate  }}</span>  
+                    
+                    <div class="w-100 password-input">
+                        <label for="password">{{'password' | translate}}</label>
+                        <br>
+                        <p-password id="password" class="w-100" [feedback]="false" [toggleMask]="true" formControlName="password" ></p-password>
+                        <br>
+                        <span style="color:red" *ngIf="loginForm.get('password')?.dirty && loginForm.get('password')?.getError('required')">{{'password is required' |translate }}</span>
+                    </div>
+
+
+
+
+
+
+
+                    <button class="btn bg-main text-white w-100 next-btn">{{'log In' | translate}}</button>
+                    <a [routerLink]="['/pages/auth/forget']" class="d-block w-100 text-center forget-btn">{{'Forget password' | translate}}</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

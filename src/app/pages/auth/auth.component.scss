@@ -1,0 +1,19 @@
+.auth{
+    .layer{
+        background: linear-gradient(to bottom, #91c82bc1, #699723c3);
+    }
+    h1{
+        font-weight: 700;
+    }
+}
+.main-auth{
+    background-color: #fff;
+    i{
+        color:#80B127;
+        font-size: 20px;
+    }
+    background-image: url(../../../assets/images/auth.jpg);
+    background-position: 75% bottom;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
